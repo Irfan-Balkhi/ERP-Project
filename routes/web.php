@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InvoiceNumController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\SaleController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,7 @@ Route::resource('invoice', InvoiceNumController::class);
 
 Route::resource('purchase', PurchaseController::class);
 
+Route::resource('sale', SaleController::class);
 
 
 // Grouping routes for PurchaseController

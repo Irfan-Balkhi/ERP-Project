@@ -12,8 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sales', function (Blueprint $table) {
-            $table->id();
+            $table->id('SaleID');
+            $table->string('InvoiceNumber')->unique(); // Automatically generated
+            $table->string('CustomerName');
+            $table->unsignedBigInteger('CategoryID'); // Foreign key for categories
+            $table->date('SaleDate');
+            $table->text('Description')->nullable();
+            $table->string('PurchasedUnit'); //واحد خریداری
+            $table->integer('Quantity');
+            $table->decimal('PricePerUnit', 10, 2);
+            $table->decimal('Total', 15, 2);
             $table->timestamps();
+        
+            // Foreign Key Constraint
+            $table->foreign('CategoryID')->references('CategoryID')->on('categories')->onDelete('cascade');
+        
         });
     }
 

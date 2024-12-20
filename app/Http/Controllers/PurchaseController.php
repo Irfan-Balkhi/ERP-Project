@@ -13,7 +13,6 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        // $purchases = Purchase::paginate(10); // Fetch purchases with pagination
         $purchases = Purchase::with('invoice')->paginate(10);
         return view("purchase.index", [
             'purchases' => $purchases // Pass purchases to the view
@@ -26,20 +25,15 @@ class PurchaseController extends Controller
     public function create()
     {
         $categories = Category::all(); // Fetch all categories for the dropdown
-        \Log::info('Categories:', $categories->toArray());
 
         return view('purchase.create', compact('categories'));
-        //     'categories' => $categories // Pass categories to the view
-        // ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        // \Log::info('Store method called', $request->all());
-        
+    {        
 
         $validated = $request->validate([
             'InvoiceNumber' => 'required|unique:purchases',
@@ -69,7 +63,6 @@ class PurchaseController extends Controller
 
         return redirect()->route('purchase.index')->with('success', 'Purchase created successfully!');
     
-        // ->route('purchase.index')
     }
 
 
