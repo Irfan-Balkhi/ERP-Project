@@ -54,12 +54,12 @@
                                     <td>{{ $sale->Total }}</td>
                                     <td>
                                         <a href="{{ route('sale.show', $sale->InvoiceNumber) }}" class="btn btn-success">Show</a>
-                                        <a href="{{ route('sale.edit', $sale->InvoiceNumber) }}" class="btn btn-warning">Edit</a>
-                                        <form action="{{ route('sale.destroy', $sale->InvoiceNumber) }}" method="POST" style="display: inline-block;">
+                                        {{-- <a href="{{ route('sale.edit', $sale->InvoiceNumber) }}" class="btn btn-warning">Edit</a> --}}
+                                        {{-- <form action="{{ route('sale.destroy', $sale->InvoiceNumber) }}" method="POST" style="display: inline-block;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
+                                        </form> --}}
                                     </td>
                                </tr>
                                 @endforeach
