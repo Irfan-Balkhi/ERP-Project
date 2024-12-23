@@ -28,9 +28,9 @@ return new class extends Migration
             $table->timestamps();
         
             // Define foreign key relationships
-            //$table->foreign('SaleID')->references('id')->on('sales')->onDelete('set null');
+            $table->foreign('SaleID')->references('id')->on('sales')->onDelete('set null');
             $table->foreign('PurchaseID')->references('id')->on('purchases')->onDelete('set null');
-            //$table->foreign('TransactionID')->references('id')->on('transactions')->onDelete('set null');
+            $table->foreign('TransactionID')->references('id')->on('transactions')->onDelete('set null');
         });
         
     }

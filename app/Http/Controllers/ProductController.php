@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\Category;
+
 
 class ProductController extends Controller
 {
@@ -12,7 +14,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::paginate(10);
+        return view('product.index', [
+            'products'=> $products //pass for perview
+        ]);  
     }
 
     /**
@@ -20,7 +25,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all(); // Fetch all categories for the dropdown
+
+        return view('product.create', compact('categories'));  
     }
 
     /**
@@ -28,7 +35,24 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       
+        // Validate incoming request data
+        $validated = $request->validate([
+            'ProductName' => 'required|string|max:255',
+            'CategoryID' => 'required|exists:categories,CategoryID',
+            'Description' => 'nullable|string',
+        ]);
+
+        // save to the database
+        $product = Product::create([
+            'ProductName' => $request->ProductName,
+            'CategoryID' => $request->CategoryID,
+            'Description' => $request->Description,
+        ]);
+    
+
+
+        return redirect()->route('product.index')->with('success', 'product created successfully!');
     }
 
     /**
@@ -36,7 +60,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('product.show');  
     }
 
     /**
@@ -44,7 +68,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('product.edit');  
     }
 
     /**

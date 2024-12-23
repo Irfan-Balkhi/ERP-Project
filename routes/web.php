@@ -6,6 +6,7 @@ use App\Http\Controllers\InvoiceNumController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ProductController;
 
 
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,7 @@ Route::resource('sale', SaleController::class);
 
 Route::resource('transaction', TransactionController::class);
 
+Route::resource('product', ProductController::class);
 
 // Grouping routes for PurchaseController
 // Route::prefix('purchase')->name('purchase.')->group(function () {

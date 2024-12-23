@@ -48,6 +48,12 @@ class Purchase extends Model
     {
         return $this->belongsTo(Category::class, 'CategoryID', 'id');
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'purchase_product', 'purchase_id', 'product_id');
+    }
+
     public function invoice()
     {
         return $this->hasOne(Invoice_Num::class, 'InvoiceNumber', 'InvoiceNumber');

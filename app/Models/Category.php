@@ -20,6 +20,14 @@ class Category extends Model
         'Status',
     ];
 
+    /**
+     * Relationship with Product model.
+     * A category can have many products.
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'CategoryID', 'CategoryID');
+    }
     public function purchases()
     {
         return $this->hasMany(Purchase::class, 'CategoryID');
@@ -28,5 +36,6 @@ class Category extends Model
     {
         return $this->hasMany(Sale::class, 'CategoryID');
     }
+
 }
 

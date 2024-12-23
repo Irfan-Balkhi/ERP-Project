@@ -17,6 +17,11 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.index')">
+                        {{ __('Products') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
                         {{ __('Categories') }}
                     </x-nav-link>
@@ -41,7 +46,32 @@
                         {{ __('Invoices') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div x-data="{ open: false }" class="relative sm:-my-px sm:ms-10 sm:flex">
+                    <!-- Dropdown Trigger -->
+                    <x-nav-link href="#" @click="open = !open" :active="request()->routeIs('dashboard')">
+                        <span class="cursor-pointer">
+                            {{ __('Paiman') }} {{-- Dropdown Title --}}
+                        </span>
+                    </x-nav-link>
+                    
+                    <!-- Dropdown Items -->
+                    <div x-show="open" class="absolute bg-white shadow-lg rounded-md border w-48 mt-2" @click.away="open = false">
+                        <a href="{{ route('dashboard') }}" 
+                           class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                            {{ __('Financials') }}
+                        </a>
+                        <a href="{{ route('dashboard') }}" 
+                           class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                            {{ __('HR') }}
+                        </a>
+                        <a href="{{ route('dashboard') }}" 
+                           class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                            {{ __('Reports') }}
+                        </a>
+                    </div>
+                </div>
+                
+                {{-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Financials') }}
                     </x-nav-link>
@@ -55,7 +85,7 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Reports') }}
                     </x-nav-link>
-                </div>
+                </div> --}}
             </div>
 
             <!-- Settings Dropdown -->

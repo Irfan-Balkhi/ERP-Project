@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('purchases', function (Blueprint $table) {
-            // $table->integer('RowNumber'); // New column for row numbers
             $table->id('PurchaseID');
             $table->string('InvoiceNumber')->unique(); // Automatically generated
             $table->string('SellerName');

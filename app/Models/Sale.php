@@ -47,6 +47,11 @@ class Sale extends Model
         return $this->belongsTo(Category::class, 'CategoryID');
     }
 
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'sale_product', 'sale_id', 'product_id');
+    }
+
     public function invoice()
     {
         return $this->hasOne(Invoice_Num::class, 'InvoiceNumber', 'InvoiceNumber');
