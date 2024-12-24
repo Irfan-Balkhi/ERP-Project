@@ -55,6 +55,12 @@ class ProductController extends Controller
         return redirect()->route('product.index')->with('success', 'product created successfully!');
     }
 
+    //     public function getProductsByCategory($CategoryID)
+    // {
+    //     $products = Product::where('CategoryID', $CategoryID)->get(['ProductID', 'ProductName']);
+    //     return response()->json($products);
+    // }
+
     /**
      * Display the specified resource.
      */

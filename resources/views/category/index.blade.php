@@ -43,6 +43,7 @@
                                     <td>{{ $category->Description }}</td>
                                     <td>{{ $category->Status ? 'Active' : 'Inactive' }}</td>
                                     <td>
+                                        {{-- <a href="{{ route('category.show', $category->CategoryID) }}" class="btn btn-success">Show</a> --}}
                                         <a href="{{ route('category.show', $category->CategoryID) }}" class="btn btn-success">Show</a>
                                         <a href="{{ route('category.edit', $category->CategoryID) }}" class="btn btn-warning">Edit</a>
                                         <form action="{{ route('category.destroy', $category->CategoryID) }}" method="POST" style="display:inline;">

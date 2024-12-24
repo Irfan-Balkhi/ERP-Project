@@ -18,6 +18,7 @@ class Purchase extends Model
         'InvoiceNumber', // Automatically generated
         'SellerName',
         'CategoryID', // Foreign key for categories
+        'ProductID',
         'PurchaseDate',
         'Description',
         'Quantity',
@@ -46,12 +47,12 @@ class Purchase extends Model
 
      public function category()
     {
-        return $this->belongsTo(Category::class, 'CategoryID', 'id');
+        return $this->belongsTo(Category::class, 'CategoryID', 'CategoryID');
     }
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'purchase_product', 'purchase_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'purchase_product', 'ProductID', 'product_id');
     }
 
     public function invoice()

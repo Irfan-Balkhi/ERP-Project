@@ -42,6 +42,16 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label for="ProductID">Select Product</label>
+                                    <select id="ProductID" name="ProductID" class="form-control" required>
+                                        <option value="">-- Select a Product --</option>
+                                        <!-- Products will be dynamically loaded here -->
+                                        {{-- @foreach ($category->products as $product)
+                                            <option value="{{ $product->ProductID }}">{{ $product->Name }}</option>
+                                        @endforeach --}}
+                                    </select>
+                                </div>
                                 <div class="mb-3">
                                     <label for="">Purchase Date</label>
                                     <input type="date" name="PurchaseDate" class="form-control" required>
@@ -90,4 +100,30 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> --}}
+
+<script>
+    document.getElementById('CategoryID').addEventListener('change', function () {
+        const CategoryID = this.value;
+        const productDropdown = document.getElementById('ProductID');
+
+        // Clear existing options
+        productDropdown.innerHTML = '<option value="">-- Select a Product --</option>';
+
+        if (CategoryID) {
+            fetch(`/get-products/${CategoryID}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(product => {
+                        const option = document.createElement('option');
+                        option.value = product.ProductID;
+                        option.textContent = product.ProductName;
+                        productDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching products:', error));
+        }
+    });
+</script>
 </body>

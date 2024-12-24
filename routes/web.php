@@ -44,6 +44,12 @@ Route::resource('transaction', TransactionController::class);
 
 Route::resource('product', ProductController::class);
 
+// Create a route that fetches products by CategoryID:
+Route::get('/get-products/{CategoryID}', [ProductController::class, 'getProductsByCategory']);
+Route::get('/get-products/{CategoryID}', [PurchaseController::class, 'getProductsByCategory']);
+
+
+
 // Grouping routes for PurchaseController
 // Route::prefix('purchase')->name('purchase.')->group(function () {
 //     Route::get('/', [PurchaseController::class, 'index'])->name('index'); // Purchase index route

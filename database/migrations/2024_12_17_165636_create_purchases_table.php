@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('InvoiceNumber')->unique(); // Automatically generated
             $table->string('SellerName');
             $table->unsignedBigInteger('CategoryID'); // Foreign key for categories
+            $table->unsignedBigInteger('ProductID'); // Foreign key for products
             $table->date('PurchaseDate');
             $table->text('Description')->nullable();
             $table->integer('Quantity');
@@ -25,6 +26,7 @@ return new class extends Migration
         
             // Foreign Key Constraint
             $table->foreign('CategoryID')->references('CategoryID')->on('categories')->onDelete('cascade');
+            $table->foreign('ProductID')->references('ProductID')->on('products')->onDelete('cascade');
 
         });
 

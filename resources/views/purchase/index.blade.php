@@ -31,7 +31,8 @@
                                         <th>PurchaseID</th>
                                         <th>Invoice Number</th>
                                         <th>SellerName</th>
-                                        <th>CategoryID</th>
+                                        <th>Category Name</th>
+                                        <th>Product Name</th>
                                         <th>PurchaseDate</th>
                                         <th>Description</th>
                                         <th>Quantity</th>
@@ -46,7 +47,8 @@
                                         <td>{{ $purchase->PurchaseID }}</td>
                                         <td>{{ $purchase->InvoiceNumber }}</td>
                                         <td>{{ $purchase->SellerName }}</td>
-                                        <td>{{ $purchase->CategoryID }}</td>
+                                        <td>{{ $purchase->category ? $purchase->category->Name : 'N/A' }}</td>
+                                        <td>{{ $purchase->ProductID }}</td>
                                         <td>{{ $purchase->PurchaseDate }}</td>
                                         <td>{{ $purchase->Description }}</td>
                                         <td>{{ $purchase->Quantity }}</td>
@@ -68,5 +70,6 @@
 </x-app-layout>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>

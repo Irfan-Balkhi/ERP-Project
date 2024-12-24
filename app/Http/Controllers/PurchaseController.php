@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 use App\Models\Category;
@@ -12,12 +13,21 @@ class PurchaseController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $purchases = Purchase::with('invoice')->paginate(10);
-        return view("purchase.index", [
-            'purchases' => $purchases // Pass purchases to the view
-        ]);
-    }
+{
+    $purchases = Purchase::with(['invoice', 'category'])->paginate(10); // Eager load both invoice and category
+    return view('purchase.index', [
+        'purchases' => $purchases, // Pass purchases to the view
+    ]);
+}
+
+
+     // public function index()
+    // {
+    //     $purchases = Purchase::with('invoice', 'category')->paginate(10);
+    //     return view("purchase.index", [
+    //         'purchases' => $purchases // Pass purchases to the view
+    //     ]);
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -25,8 +35,9 @@ class PurchaseController extends Controller
     public function create()
     {
         $categories = Category::all(); // Fetch all categories for the dropdown
+        $products = Product::all(); // Fetch all products for the dropdown
 
-        return view('purchase.create', compact('categories'));
+        return view('purchase.create', compact('categories', 'products'));
     }
 
     /**
@@ -39,6 +50,7 @@ class PurchaseController extends Controller
             'InvoiceNumber' => 'required|unique:purchases',
             'SellerName' => 'required|string|max:255',
             'CategoryID' => 'required|exists:categories,CategoryID',
+            'ProductID' => 'required|exists:products,ProductID',
             'PurchaseDate' => 'required|date',
             'Description' => 'nullable|max:255',
             'Quantity' => 'required|integer|min:1',
@@ -54,6 +66,7 @@ class PurchaseController extends Controller
             'InvoiceNumber' => $request->InvoiceNumber,
             'SellerName' => $request->SellerName,
             'CategoryID' => $request->CategoryID,
+            'ProductID' => $request->ProductID,
             'PurchaseDate' => $request->PurchaseDate,
             'Description' => $request->Description,
             'Quantity' => $request->Quantity,
@@ -65,7 +78,11 @@ class PurchaseController extends Controller
     
     }
 
-
+        public function getProductsByCategory($CategoryID)
+    {
+        $products = Product::where('CategoryID', $CategoryID)->get(['ProductID', 'ProductName']);
+        return response()->json($products);
+    }
 
     /**
      * Display the specified resource.
