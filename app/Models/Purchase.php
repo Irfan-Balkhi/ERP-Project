@@ -12,9 +12,9 @@ class Purchase extends Model
     use HasFactory;
 
     protected $table = "purchases";
+    protected $primaryKey = 'PurchaseID'; // Define the custom primary key
 
     protected $fillable = [
-        // 'PurchaseID',
         'InvoiceNumber', // Automatically generated
         'SellerName',
         'CategoryID', // Foreign key for categories
@@ -50,9 +50,20 @@ class Purchase extends Model
         return $this->belongsTo(Category::class, 'CategoryID', 'CategoryID');
     }
 
-    public function products()
+    // public function products()
+    // {
+    //     return $this->belongsToMany(Product::class, 'product_purchase', 'PurchaseID', 'ProductID')
+    //                 ->withTimestamps();    // Include timestamps if present
+    // }
+    
+        public function products()
     {
-        return $this->belongsToMany(Product::class, 'purchase_product', 'ProductID', 'product_id');
+        return $this->belongsToMany(
+            Product::class,
+            'product_purchase',  // Pivot table name
+            'PurchaseID',        // Foreign key in the pivot table for Purchase
+            'ProductID'          // Foreign key in the pivot table for Product
+        )->withTimestamps();
     }
 
     public function invoice()

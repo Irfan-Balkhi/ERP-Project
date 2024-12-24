@@ -10,7 +10,7 @@ class Product extends Model
         use HasFactory;
     
         protected $table = 'products';    
-        protected $primanryKey = 'ProductID';
+        protected $primaryKey = 'ProductID'; 
         
         protected $fillable = [
             'ProductName',
@@ -22,10 +22,21 @@ class Product extends Model
         {
             return $this->belongsTo(Category::class, 'CategoryID', 'CategoryID');
         }
-        public function purchase()
+        // public function purchases()
+        // {
+        //     return $this->belongsToMany(Purchase::class, 'product_purchase', 'ProductID', 'PurchaseID')
+        //                 ->withTimestamps();    // Include timestamps if present
+        // }
+            public function purchases()
         {
-            return $this->belongsToMany(Purchase::class, 'purchase_product', 'product_id', 'purchase_id');
+            return $this->belongsToMany(
+                Purchase::class,
+                'product_purchase',  // Pivot table name
+                'ProductID',         // Foreign key in the pivot table for Product
+                'PurchaseID'         // Foreign key in the pivot table for Purchase
+            )->withTimestamps();
         }
+
         public function sale()
         {
             return $this->belongsToMany(Sale::class, 'sale_product', 'product_id', 'sale_id');

@@ -64,11 +64,12 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+        public function show($ProductID)
     {
-        return view('product.show');  
+        $product = Product::findOrFail($ProductID); // Now it uses ProductID
+        return view('product.show', compact('product'));
     }
-
+    // 
     /**
      * Show the form for editing the specified resource.
      */

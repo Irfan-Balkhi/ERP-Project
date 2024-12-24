@@ -48,7 +48,8 @@
                                         <td>{{ $purchase->InvoiceNumber }}</td>
                                         <td>{{ $purchase->SellerName }}</td>
                                         <td>{{ $purchase->category ? $purchase->category->Name : 'N/A' }}</td>
-                                        <td>{{ $purchase->ProductID }}</td>
+                                        {{-- <td>{{ $purchase->products->isNotEmpty() ? $purchase->products->first()->ProductName : 'N/A' }}</td> --}}
+                                        <td>{{ $purchase->ProductID}}</td>
                                         <td>{{ $purchase->PurchaseDate }}</td>
                                         <td>{{ $purchase->Description }}</td>
                                         <td>{{ $purchase->Quantity }}</td>

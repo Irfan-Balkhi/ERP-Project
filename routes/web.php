@@ -7,6 +7,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\InventoryController;
 
 
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,8 @@ Route::patch('/categories/{id}/deactivate', [CategoryController::class, 'deactiv
 Route::resource('invoice', InvoiceNumController::class);
 
 Route::resource('purchase', PurchaseController::class);
+
+Route::resource('inventory', InventoryController::class);
 
 Route::resource('sale', SaleController::class);
 
