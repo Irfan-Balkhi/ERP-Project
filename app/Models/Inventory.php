@@ -23,12 +23,11 @@ class Inventory extends Model
     // Relationships
     public function purchase()
     {
-        return $this->belongsTo(Purchase::class, 'PurchaseID', 'id');
+        return $this->belongsTo(Purchase::class, 'PurchaseID');
     }
-
     public function product()
     {
-        return $this->belongsTo(Product::class, 'ProductID', 'id');
+        return $this->belongsTo(Product::class, 'ProductID');  // Ensure the foreign key is correct
     }
 }
 

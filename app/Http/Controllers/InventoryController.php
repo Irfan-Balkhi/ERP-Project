@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use App\Models\Purchase;
+use App\Models\Product;
 
 class InventoryController extends Controller
 {
@@ -12,15 +14,20 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        return view("inventory.index");
-    }
+        // Fetch all inventories with related product and purchase data
+        $inventories = Inventory::with(['product', 'purchase'])->get();
 
+        // Pass the data to the inventory index view
+        return view('inventory.index', compact('inventories'));
+    }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        $purchases = Purchase::all();
+        $products = Product::all();
+        return view('inventory.create', compact('purchases', 'products'));
     }
 
     /**
@@ -28,7 +35,22 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'PurchaseID' => 'required|exists:purchases,PurchaseID',
+            'ProductID' => 'required|exists:products,ProductID',
+            'Quantity' => 'required|integer|min:1',
+            'TotalPurchasedPrice' => 'required|numeric|min:0',
+        ]);
+
+        Inventory::create([
+            'PurchaseID' => $validated['PurchaseID'],
+            'ProductID' => $validated['ProductID'],
+            'ProductName' => Product::find($validated['ProductID'])->ProductName,
+            'Quantity' => $validated['Quantity'],
+            'TotalPurchasedPrice' => $validated['TotalPurchasedPrice'],
+        ]);
+
+        return redirect()->route('inventory.index')->with('success', 'Inventory updated successfully.');
     }
 
     /**
@@ -58,8 +80,15 @@ class InventoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Inventory $inventory)
+    public function destroy($inventoryID)
     {
-        //
+        // Find the inventory item by its ID
+        $inventory = Inventory::findOrFail($inventoryID);
+
+        // Delete the inventory item
+        $inventory->delete();
+
+        // Redirect back with a success message
+        return redirect()->route('inventory.index')->with('success', 'Inventory item deleted successfully.');
     }
 }
