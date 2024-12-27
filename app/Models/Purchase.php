@@ -32,9 +32,11 @@ class Purchase extends Model
      {
          parent::boot();
  
-         static::creating(function ($purchase) {
-             $purchase->InvoiceNumber = 'INV-' . date('Ymd') . '-' . strtoupper(Str::random(6));
-         });
+        //for server side that invoice number generation
+
+        //  static::creating(function ($purchase) {
+        //      $purchase->InvoiceNumber = 'INV-' . date('Ymd') . '-' . strtoupper(Str::random(6));
+        //  });
  
          // Add logic for updating Invoice Table on creation
          static::created(function ($purchase) {
