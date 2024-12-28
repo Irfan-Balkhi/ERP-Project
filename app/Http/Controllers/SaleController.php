@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Inventory;
 
 class SaleController extends Controller
 {
@@ -27,9 +28,8 @@ class SaleController extends Controller
      */
     public function create()
     {
-        $categories = Category::all(); // Fetch all categories for the dropdown
-
-        return view("sale.create", compact('categories'));
+        $products = Inventory::all(); // Fetch all available products from inventory
+        return view('sale.create', compact('products'));
     }
 
     /**
@@ -41,7 +41,7 @@ class SaleController extends Controller
     $validated = $request->validate([
         'InvoiceNumber' => 'required|unique:sales',
         'CustomerName' => 'required|string|max:255',
-        'CategoryID' => 'required|exists:categories,CategoryID',
+        'ProductID' => 'required|exists:inventories,ProductID',
         'SaleDate' => 'required|date',
         'Description' => 'nullable|max:255',
         'PurchasedUnit' => 'required|string|max:255',
@@ -54,7 +54,7 @@ class SaleController extends Controller
     $sale = Sale::create([
         'InvoiceNumber' => $request->InvoiceNumber,
         'CustomerName' => $request->CustomerName,
-        'CategoryID' => $request->CategoryID,
+        'ProductID' => $request->ProductID,
         'SaleDate' => $request->SaleDate,
         'Description' => $request->Description,
         'PurchasedUnit' => $request->PurchasedUnit,
@@ -62,6 +62,12 @@ class SaleController extends Controller
         'PricePerUnit' => $request->PricePerUnit,
         'Total' => $request->Total,
     ]);
+        $product = Inventory::find($request->ProductID);
+    if ($product->Quantity < $request->Quantity) {
+        return redirect()->back()->withErrors(['Quantity' => 'Not enough stock available.']);
+    }
+    $product->Quantity -= $request->Quantity;
+    $product->save();
 
     return redirect()->route('sale.index')->with('success', 'Sale created successfully!');
 }

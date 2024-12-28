@@ -15,7 +15,7 @@ class Sale extends Model
     protected $fillable = [
         'InvoiceNumber',
         'CustomerName',
-        'CategoryID',
+        'ProductID',
         'SaleDate',
         'Description',
         'PurchasedUnit',
@@ -42,10 +42,10 @@ class Sale extends Model
      }
 
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'CategoryID');
-    }
+     public function product()
+     {
+         return $this->belongsTo(Inventory::class, 'ProductID', 'ProductID');
+     }
 
     public function products()
     {

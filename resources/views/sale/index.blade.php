@@ -29,7 +29,7 @@
                                     <th>#</th>
                                     <th>Invoice Number</th>
                                     <th>Customer Name</th>
-                                    <th>Category ID</th>
+                                    <th>Product Name</th>
                                     <th>Sale Date</th>
                                     <th>Description</th>
                                     <th>Purchased Unit</th>
@@ -45,7 +45,7 @@
                                     <td>{{ $loop->iteration }}</td> 
                                     <td>{{ $sale->InvoiceNumber }}</td>
                                     <td>{{ $sale->CustomerName }}</td>
-                                    <td>{{ $sale->CategoryID }}</td>
+                                    <td>{{ $sale->product->ProductName ?? 'N/A' }}</td>
                                     <td>{{ $sale->SaleDate }}</td>
                                     <td>{{ $sale->Description }}</td>
                                     <td>{{ $sale->PurchasedUnit }}</td>

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('SaleID');
             $table->string('InvoiceNumber')->unique(); // Automatically generated
             $table->string('CustomerName');
-            $table->unsignedBigInteger('CategoryID'); // Foreign key for categories
+            $table->unsignedBigInteger('ProductID')->nullable(); // Foreign key for products in inventory
             $table->date('SaleDate');
             $table->text('Description')->nullable();
             $table->string('PurchasedUnit'); //واحد خریداری
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->timestamps();
         
             // Foreign Key Constraint
-            $table->foreign('CategoryID')->references('CategoryID')->on('categories')->onDelete('cascade');
+            $table->foreign('ProductID')->references('ProductID')->on('inventories')->onDelete('cascade');
         
         });
     }

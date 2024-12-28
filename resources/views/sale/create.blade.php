@@ -35,6 +35,15 @@
                                 <input type="text" name="CustomerName" class="form-control" placeholder="Enter Customer Name" required>
                             </div>
                             <div class="mb-3">
+                                <label for="ProductID">Product</label>
+                                <select name="ProductID" id="ProductID" class="form-control" required>
+                                    <option value="" disabled selected>Select a Product</option>
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->ProductID }}">{{ $product->ProductName }} (Available: {{ $product->Quantity }})</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            {{-- <div class="mb-3">
                                 <label for="CategoryID">Category ID</label>
                                 <select name="CategoryID" id="CategoryID" class="form-control">
                                     <option value="" disabled selected>Select a Category</option>
@@ -42,7 +51,7 @@
                                         <option value="{{ $category->CategoryID }}">{{ $category->Name }}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <label for="">Sale Date</label>
                                 <input type="date" name="SaleDate" class="form-control" required>
