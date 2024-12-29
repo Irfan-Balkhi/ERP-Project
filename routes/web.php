@@ -8,9 +8,13 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\FinanceController;
+use App\Http\Controllers\ExpenseController;
 
 
 use Illuminate\Support\Facades\Route;
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,9 +53,22 @@ Route::resource('product', ProductController::class);
 
 // Create a route that fetches products by CategoryID:
 Route::get('/get-products/{CategoryID}', [ProductController::class, 'getProductsByCategory']);
+
 Route::get('/get-products/{CategoryID}', [PurchaseController::class, 'getProductsByCategory']);
 
+// Update finance data manually
+Route::get('/finances/update', [FinanceController::class, 'updateFinanceData']);
 
+// Resource routes for Finance (for CRUD operations)
+Route::resource('finance', FinanceController::class);
+//related to the finance cards:
+Route::get('/finance/purchases', [FinanceController::class, 'showPurchases'])->name('finance.purchases');
+Route::get('/finance/sales', [FinanceController::class, 'showSales'])->name('finance.sales');
+Route::get('/finance/transactions', [FinanceController::class, 'showTransactions'])->name('finance.transactions');
+Route::get('/finance/expenses', [FinanceController::class, 'showExpenses'])->name('finance.expenses');
+
+// Resource routes for Expenses (for CRUD operations)
+Route::resource('expense', ExpenseController::class);
 
 // Grouping routes for PurchaseController
 // Route::prefix('purchase')->name('purchase.')->group(function () {

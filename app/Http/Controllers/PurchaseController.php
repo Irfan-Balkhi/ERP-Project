@@ -13,18 +13,18 @@ class PurchaseController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    // In PurchaseController
-    // $purchases = Purchase::with(['invoice', 'category'])->paginate(10); // Eager load both invoice and category
-    // return view('purchase.index', [
-    //     'purchases' => $purchases, // Pass purchases to the view
-    // ]);
-    $purchases = Purchase::with(['invoice', 'category', 'products'])->paginate(10); // Eager load invoice, category, and products
-        return view('purchase.index', [
-        'purchases' => $purchases, // Pass purchases to the view
-]);
+    {
+        // In PurchaseController
+        // $purchases = Purchase::with(['invoice', 'category'])->paginate(10); // Eager load both invoice and category
+        // return view('purchase.index', [
+        //     'purchases' => $purchases, // Pass purchases to the view
+        // ]);
+        $purchases = Purchase::with(['invoice', 'category', 'products'])->paginate(10); // Eager load invoice, category, and products
+            return view('purchase.index', [
+            'purchases' => $purchases, // Pass purchases to the view
+        ]);
 
-}
+    }
 // ->find($PurchaseID)
     /**
      * Show the form for creating a new resource.

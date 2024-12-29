@@ -60,9 +60,13 @@
                     
                     <!-- Dropdown Items -->
                     <div x-show="open" class="absolute bg-white shadow-lg rounded-md border w-48 mt-2" @click.away="open = false">
-                        <a href="{{ route('dashboard') }}" 
+                        <a href="{{ route('finance.index') }}" 
                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-                            {{ __('Financials') }}
+                            {{ __('Finance') }}
+                        </a>
+                        <a href="{{ route('expense.index') }}" 
+                           class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                            {{ __('Expenses') }}
                         </a>
                         <a href="{{ route('dashboard') }}" 
                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
