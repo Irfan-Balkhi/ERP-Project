@@ -14,6 +14,7 @@
 
         </h2>
     </x-slot>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> {{-- this class is for centerlizing the contents --}}
         <div class="container mt-6">
             <div class="row">
                 <div class="col-md-12">
@@ -95,6 +96,8 @@
                 </div>
             </div>
         </div>
+    </div>
+        
         
 </x-app-layout>
 

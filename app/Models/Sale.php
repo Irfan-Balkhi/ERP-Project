@@ -12,6 +12,8 @@ class Sale extends Model
 
     protected $table = "sales";
 
+    protected $primaryKey = 'SaleID';
+
     protected $fillable = [
         'InvoiceNumber',
         'CustomerName',
@@ -49,12 +51,15 @@ class Sale extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'sale_product', 'sale_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'sale_product', 'SaleID', 'ProductID');
     }
 
     public function invoice()
     {
         return $this->hasOne(Invoice_Num::class, 'InvoiceNumber', 'InvoiceNumber');
     }
+    
+    
 
+    
 }

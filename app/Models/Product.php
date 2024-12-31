@@ -39,8 +39,16 @@ class Product extends Model
 
         public function sale()
         {
-            return $this->belongsToMany(Sale::class, 'sale_product', 'product_id', 'sale_id');
+            return $this->belongsToMany(Sale::class,
+            'sale_product',
+            'ProductID',
+            'SaleID');
         }
 
+        public function inventory()
+    {
+        return $this->hasOne(Inventory::class, 'ProductID', 'ProductID');
+    }
+        
 }
     
