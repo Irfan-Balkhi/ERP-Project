@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ExpenseController;
+// use App\Http\Controllers\HRController;
 
 
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,22 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::resource('permission', App\Http\Controllers\PermissionController::class);
+Route::get('permission/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy']);
+
+Route::resource('role', App\Http\Controllers\RoleController::class);
+Route::get('role/{roleId}/delete', [App\Http\Controllers\RoleController::class, 'destroy']);
+Route::get('role/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'addPermissionToRole']);
+Route::put('role/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'givePermissionToRole']);
+
+Route::resource('user', App\Http\Controllers\UserController::class);
+Route::get('user/{userId}/delete', [App\Http\Controllers\RoleController::class, 'destroy']);
+
+
+
+
+
 
 // Route::get('/', [HomepageController::class,'index'])->name('homepage');
 

@@ -76,7 +76,7 @@
         <div x-show="dropdown === 'management'" class="flex space-x-8">
             <a href="{{ route('finance.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Financials</a>
             <a href="{{ route('expense.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Expenses</a>
-            <a href="{{ route('dashboard') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">HR</a>
+            <a href="{{ route('permission.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">HR</a>
             <a href="{{ route('dashboard') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Reports</a>
         </div>
     </div>
