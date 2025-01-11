@@ -14,8 +14,9 @@
                     {{ __('Roles List') }}
                 </h2>
                 @include('role-permission.nav-links')
-                
-                <a href="{{ route('role.create') }}" class="btn btn-primary">Add Roles</a>
+                {{-- @can('create role') --}} {{-- Permission for the roles that can or can not use a function using blade--}}
+                    <a href="{{ route('role.create') }}" class="btn btn-primary">Add Roles</a>
+                {{-- @endcan --}}
             </div>
         </x-slot>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> {{-- this class is for centerlizing the contents --}}

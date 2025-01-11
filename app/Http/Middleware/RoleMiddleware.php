@@ -8,14 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next, $role): Response
     {
-        if (auth()->check() && auth()->user()->role === $role) {
+        if (auth()->check() && auth()->user()->hasRole($role)) {
             return $next($request);
         }
         abort(403, 'Unauthorized action.');

@@ -5,11 +5,21 @@ namespace App\Http\Controllers;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+
+
+// use App\Http\Controllers\RoleController::middleware();
+
+use Illuminate\Routing\Controller as BaseController;
+
+class RoleController extends BaseController
+// class RoleController extends Controller
 {
+    public  function __construct()
+    {
+        $this->middleware('permission:create role', ['only' => ['create']]);
+    }
     public function index()
     {
         $roles = Role::get();

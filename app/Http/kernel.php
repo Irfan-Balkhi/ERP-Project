@@ -59,7 +59,11 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
+        
+            // for role using spatie
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+        
         // Custom middleware
-        'admin' => \App\Http\Middleware\AdminMiddleware::class, // Register your admin middleware
+        // 'admin' => \App\Http\Middleware\AdminMiddleware::class, // Register your admin middleware
     ];
 }

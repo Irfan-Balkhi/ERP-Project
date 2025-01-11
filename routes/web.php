@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InvoiceNumController;
@@ -10,20 +13,29 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ExpenseController;
+
+// use App\Http\Controllers\Auth\LoginController;
 // use App\Http\Controllers\HRController;
 
 
-use Illuminate\Support\Facades\Route;
 
 
+
+// Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
+
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
-
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->name('dashboard'); // Add name to the route
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+//   }); //->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -31,18 +43,30 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php';
 
-Route::resource('permission', App\Http\Controllers\PermissionController::class);
-Route::get('permission/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy']);
+Route::group(['middleware' => ['role:super-admin|admin']], function()
+{
 
-Route::resource('role', App\Http\Controllers\RoleController::class);
-Route::get('role/{roleId}/delete', [App\Http\Controllers\RoleController::class, 'destroy']);
-Route::get('role/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'addPermissionToRole']);
-Route::put('role/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'givePermissionToRole']);
+    Route::resource('permission', App\Http\Controllers\PermissionController::class);
+    Route::get('permission/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy']);
 
-Route::resource('user', App\Http\Controllers\UserController::class);
-Route::get('user/{userId}/delete', [App\Http\Controllers\RoleController::class, 'destroy']);
+    Route::resource('role', App\Http\Controllers\RoleController::class);
+    Route::get('role/{roleId}/delete', [App\Http\Controllers\RoleController::class, 'destroy']);
+        // ->middleware('permission:delete role');
+
+    Route::get('role/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'addPermissionToRole']);
+    Route::put('role/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'givePermissionToRole']);
+
+    Route::resource('user', App\Http\Controllers\UserController::class);
+    Route::get('user/{userId}/delete', [App\Http\Controllers\UserController::class, 'destroy']);
+
+    Route::resource('category', CategoryController::class);
+
+    // Add this route for deactivation
+    Route::patch('/categories/{id}/deactivate', [CategoryController::class, 'deactivate'])->name('categories.deactivate');
+
+});
 
 
 
@@ -51,10 +75,6 @@ Route::get('user/{userId}/delete', [App\Http\Controllers\RoleController::class, 
 
 // Route::get('/', [HomepageController::class,'index'])->name('homepage');
 
-Route::resource('category', CategoryController::class);
-
-// Add this route for deactivation
-Route::patch('/categories/{id}/deactivate', [CategoryController::class, 'deactivate'])->name('categories.deactivate');
 
 Route::resource('invoice', InvoiceNumController::class);
 

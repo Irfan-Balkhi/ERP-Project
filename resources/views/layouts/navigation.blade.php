@@ -44,12 +44,12 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
-                        <form method="POST" action="{{ route('logout') }}">
+                        {{-- <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
-                        </form>
+                        </form> --}}
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -64,7 +64,11 @@
         </div>
         <div x-show="dropdown === 'products'" class="flex space-x-8">
             <a href="{{ route('product.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Products</a>
-            <a href="{{ route('category.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Categories</a>
+    
+            @can('category index')
+                <a href="{{ route('category.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Categories</a>
+            @endcan
+            
             <a href="{{ route('inventory.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Inventory</a>
         </div>
         <div x-show="dropdown === 'sales'" class="flex space-x-8">
@@ -76,7 +80,11 @@
         <div x-show="dropdown === 'management'" class="flex space-x-8">
             <a href="{{ route('finance.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Financials</a>
             <a href="{{ route('expense.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Expenses</a>
-            <a href="{{ route('permission.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">HR</a>
+            
+            @can('permission index') {{-- Permission for the roles that can or can not use a function using blade--}}
+                <a href="{{ route('permission.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">HR</a>
+            @endcan
+
             <a href="{{ route('dashboard') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Reports</a>
         </div>
     </div>

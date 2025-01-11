@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
 
-class CategoryController extends Controller
+
+class CategoryController extends BaseController
 {
+    // you can use the police also to centerlize the control in policy file but this is centerlized in controller file
+    public  function __construct()
+    {
+        $this->middleware('permission:category index', ['only' => ['index']]);
+        //views or tasks that you want to protect from the specific user.
+        // you can prevent the user access from here but if you want to hide the complete button so go to its specific address and use (can) tag for it 
+    }
     /**
      * Display a listing of the resource.
      */
