@@ -3,14 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Product Form</title>
+    <title>Edit Product</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Add Product') }}
+            {{ __('Edit Product') }}
             <a href="{{ route('product.index') }}" class="btn btn-danger float-end">Back</a>
         </h2>
     </x-slot>
@@ -21,34 +21,40 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Note: Add the complete details of your product here</h4>
+                            <h4>Note: Edit the details of your product here</h4>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('product.store') }}" method="POST">
+                            <form action="{{ route('product.update', $product->ProductID) }}" method="POST">
                                 @csrf
+                                @method('PUT')
     
                                 <div class="mb-3">
                                     <label for="ProductName">Product Name</label>
-                                    <input type="text" name="ProductName" id="ProductName" class="form-control" placeholder="Enter Product Name" required>
+                                    <input type="text" name="ProductName" id="ProductName" class="form-control" 
+                                           value="{{ old('ProductName', $product->ProductName) }}" required>
                                 </div>
     
                                 <div class="mb-3">
                                     <label for="CategoryID">Category</label>
                                     <select name="CategoryID" id="CategoryID" class="form-control" required>
-                                        <option value="" disabled selected>Select a Category</option>
+                                        <option value="" disabled>Select a Category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->CategoryID }}">{{ $category->Name }}</option>
+                                            <option value="{{ $category->CategoryID }}" 
+                                                {{ $product->CategoryID == $category->CategoryID ? 'selected' : '' }}>
+                                                {{ $category->Name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
     
                                 <div class="mb-3">
                                     <label for="Description">Description</label>
-                                    <textarea name="Description" id="Description" class="form-control" placeholder="Enter Description (Optional)"></textarea>
+                                    <textarea name="Description" id="Description" class="form-control" 
+                                              placeholder="Enter Description (Optional)">{{ old('Description', $product->Description) }}</textarea>
                                 </div>
     
                                 <div class="mb-3">
-                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
@@ -56,9 +62,8 @@
                 </div>
             </div>
         </div>
-    
     </div>
-    </x-app-layout>
+</x-app-layout>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
