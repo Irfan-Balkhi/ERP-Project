@@ -70,6 +70,9 @@
             @endcan
             
             <a href="{{ route('inventory.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Inventory</a>
+
+            <a href="{{ route('supplier.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Supplier</a>
+
         </div>
         <div x-show="dropdown === 'sales'" class="flex space-x-8">
             <a href="{{ route('purchase.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Purchase</a>
@@ -81,7 +84,7 @@
             <a href="{{ route('finance.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Financials</a>
             <a href="{{ route('expense.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Expenses</a>
             
-            @can('permission index') {{-- Permission for the roles that can or can not use a function using blade--}}
+             @can('permission index') {{-- Permission for the roles that can or can not use a function using blade --}}
                 <a href="{{ route('permission.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">HR</a>
             @endcan
 

@@ -4,72 +4,48 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-
 
 class Purchase extends Model
 {
     use HasFactory;
 
-    protected $table = "purchases";
-    protected $primaryKey = 'PurchaseID'; // Define the custom primary key
+    // Table name (optional, if it differs from the plural form of the model name)
+    protected $table = 'purchases';
 
+    // Primary key (optional, if it differs from 'id')
+    protected $primaryKey = 'PurchaseID';
+
+    // Fields that can be mass assigned
     protected $fillable = [
-        'InvoiceNumber', // Automatically generated
-        'SellerName',
-        'CategoryID', // Foreign key for categories
-        'ProductID',
+        'SupplierID',
+        'ContractID',
         'PurchaseDate',
         'Description',
-        'Quantity',
-        'PricePerUnit',
-        'Total',
-
     ];
 
-     // Generate unique InvoiceNumber before saving
-     protected static function boot()
-     {
-         parent::boot();
- 
-        //for server side that invoice number generation
+    // Relationships
 
-        //  static::creating(function ($purchase) {
-        //      $purchase->InvoiceNumber = 'INV-' . date('Ymd') . '-' . strtoupper(Str::random(6));
-        //  });
- 
-         // Add logic for updating Invoice Table on creation
-         static::created(function ($purchase) {
-            Invoice_Num::create([
-                 'InvoiceNumber' => $purchase->InvoiceNumber,
-                 'Source' => 'Purchase',
-             ]);
-         });
-     }
-
-     public function category()
-    {
-        return $this->belongsTo(Category::class, 'CategoryID', 'CategoryID');
-    }
-
-    // public function products()
+    /**
+     * Get the supplier associated with the purchase.
+     */
+    // public function supplier()
     // {
-    //     return $this->belongsToMany(Product::class, 'product_purchase', 'PurchaseID', 'ProductID')
-    //                 ->withTimestamps();    // Include timestamps if present
+    //     return $this->belongsTo(Supplier::class, 'SupplierID', 'SupplierID');
     // }
-    
-        public function products()
-    {
-        return $this->belongsToMany(
-            Product::class,
-            'product_purchase',  // Pivot table name
-            'PurchaseID',        // Foreign key in the pivot table for Purchase
-            'ProductID'          // Foreign key in the pivot table for Product
-        )->withTimestamps();
-    }
 
-    public function invoice()
-    {
-        return $this->hasOne(Invoice_Num::class, 'InvoiceNumber', 'InvoiceNumber');
-    }
+    /**
+     * Get the contract associated with the purchase.
+     */
+    // public function contract()
+    // {
+    //     return $this->belongsTo(Contract::class, 'ContractID', 'ContractID');
+    // }
+
+    /**
+     * Get the purchase details associated with the purchase.
+     */
+    // public function Purchase_Details()
+    // {
+    //     return $this->hasMany(Purchase_Details::class, 'Purchase_DetailID', 'Purchase_DetailID');
+    // }
 }

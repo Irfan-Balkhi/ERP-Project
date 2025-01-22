@@ -19,13 +19,49 @@ class CategoryController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::paginate(10);
-        return view("category.index", [
-            "categories"=> $categories
-        ]);
+        $search = $request->input('search', null);          // Filter by name
+        $categoryId = $request->input('CategoryID', null);  // Filter by ID
+        $status = $request->input('status', null);          // Filter by status
+
+        // Start the query for Category model
+        $query = Category::query();
+
+        // Apply search filter if provided
+        if ($search) {
+            $query->where('Name', 'like', "%{$search}%");
+        }
+
+        // Apply ID filter if provided
+        if ($categoryId) {
+            $query->where('CategoryID', $categoryId);
+        }
+
+        // Apply status filter if provided
+        if ($status === 'active') {
+            $query->where('Status', 1);
+        } elseif ($status === 'inactive') {
+            $query->where('Status', 0);
+        }
+
+        // Order the results by `created_at` in descending order
+        $query->orderBy('created_at', 'desc');
+
+        // Paginate results
+        $categories = $query->paginate(10);
+
+        // Return the view with filtered items
+        return view('category.index', compact('categories', 'search', 'categoryId', 'status'));
     }
+
+    // public function index()
+    // {
+    //     $categories = Category::paginate(10);
+    //     return view("category.index", [
+    //         "categories"=> $categories
+    //     ]);
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -98,10 +134,27 @@ class CategoryController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    // public function destroy(Category $category)
+    // {
+    //     //
+    // }
+    public function destroy($CategoryID)
     {
-        //
+        try {
+            // Find the category by ID
+            $category = Category::findOrFail($CategoryID);
+
+            // Delete the category
+            $category->delete();
+
+            // Redirect with success message
+            return redirect()->route('category.index')->with('success', 'Category deleted successfully.');
+        } catch (\Exception $e) {
+            // Handle exception and redirect with an error message
+            return redirect()->route('category.index')->with('error', 'Failed to delete the category.');
+        }
     }
+
 
     public function deactivate($CategoryID)
     {

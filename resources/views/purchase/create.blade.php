@@ -31,8 +31,8 @@
                                     <input type="text" name="InvoiceNumber" value="{{ 'INV-' . date('Ymd') . '-' . strtoupper(Str::random(6)) }}" class="form-control" readonly>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="">Seller Name</label>
-                                    <input type="text" name="SellerName" class="form-control" placeholder="Enter Seller Name" required>
+                                    <label for="">Supplier Name</label>
+                                    <input type="text" name="SellerName" class="form-control" placeholder="Enter Supplier Name" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="CategoryID">Category ID</label>

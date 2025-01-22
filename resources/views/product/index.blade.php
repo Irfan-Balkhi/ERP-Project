@@ -21,7 +21,7 @@
                 <div class="col-md-12">
                     @if (session('status'))
                             <div class="alert alert-success">{{ session('status') }}</div>
-                        @endif
+                    @endif
                     <div class="card">
                         <div class="card-body ">
                             <form action="{{ route('product.index') }}" method="GET" class="form-inline justify-center d-flex">
@@ -125,11 +125,7 @@
                                         <td>
                                             <a href="{{ route('product.show', $product->ProductID) }}" class="btn btn-success">Show</a>
                                             <a href="{{ route('product.edit', $product->ProductID) }}" class="btn btn-warning">Edit</a>
-                                            {{-- <form action="{{ route('product.destroy', $product->ProductID) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                            </form> --}}
+                                            
                                             <form action="{{ route('product.destroy', $product->ProductID) }}" method="POST" id="delete-form-{{ $product->ProductID }}" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')

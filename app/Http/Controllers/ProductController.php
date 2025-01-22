@@ -147,42 +147,42 @@ class ProductController extends Controller
     //     //
     // }
     public function update(Request $request, $ProductID)
-{
-    // Validate the incoming request data
-    $request->validate([
-        'ProductName' => 'required|string|max:255',
-        'CategoryID' => 'required|exists:categories,CategoryID',
-        'Description' => 'nullable|string|max:1000',
-    ]);
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'ProductName' => 'required|string|max:255',
+            'CategoryID' => 'required|exists:categories,CategoryID',
+            'Description' => 'nullable|string|max:1000',
+        ]);
 
-    // Fetch the product by ID
-    $product = Product::findOrFail($ProductID);
+        // Fetch the product by ID
+        $product = Product::findOrFail($ProductID);
 
-    // Update the product with the new data
-    $product->update([
-        'ProductName' => $request->input('ProductName'),
-        'CategoryID' => $request->input('CategoryID'),
-        'Description' => $request->input('Description'),
-    ]);
+        // Update the product with the new data
+        $product->update([
+            'ProductName' => $request->input('ProductName'),
+            'CategoryID' => $request->input('CategoryID'),
+            'Description' => $request->input('Description'),
+        ]);
 
-    // Redirect back with a success message
-    return redirect()->route('product.index')->with('success', 'Product updated successfully.');
-}
+        // Redirect back with a success message
+        return redirect()->route('product.index')->with('success', 'Product updated successfully.');
+    }
 
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($ProductID)
-{
-    // Find the product by ID
-    $product = Product::findOrFail($ProductID);
+    {
+        // Find the product by ID
+        $product = Product::findOrFail($ProductID);
 
-    // Delete the product
-    $product->delete();
+        // Delete the product
+        $product->delete();
 
-    // Redirect back with a success message
-    return redirect()->route('product.index')->with('success', 'Product deleted successfully.');
-}
+        // Redirect back with a success message
+        return redirect()->route('product.index')->with('success', 'Product deleted successfully.');
+    }
 
 }

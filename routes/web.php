@@ -13,7 +13,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ExpenseController;
-
+use App\Http\Controllers\SupplierController;
 // use App\Http\Controllers\Auth\LoginController;
 // use App\Http\Controllers\HRController;
 
@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
 
 // require __DIR__.'/auth.php';
 
-Route::group(['middleware' => ['role:super-admin|admin']], function()
+Route::group(['middleware' => ['role:Super Admin|Admin']], function()
 {
 
     Route::resource('permission', App\Http\Controllers\PermissionController::class);
@@ -87,6 +87,8 @@ Route::resource('sale', SaleController::class);
 Route::resource('transaction', TransactionController::class);
 
 Route::resource('product', ProductController::class);
+
+Route::resource('supplier', SupplierController::class);
 
 // Create a route that fetches products by CategoryID:
 Route::get('/get-products/{CategoryID}', [ProductController::class, 'getProductsByCategory']);

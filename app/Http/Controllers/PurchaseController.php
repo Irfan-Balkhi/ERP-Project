@@ -19,8 +19,8 @@ class PurchaseController extends Controller
         // return view('purchase.index', [
         //     'purchases' => $purchases, // Pass purchases to the view
         // ]);
-        $purchases = Purchase::with(['invoice', 'category', 'products'])->paginate(10); // Eager load invoice, category, and products
-            return view('purchase.index', [
+        $purchases = Purchase::with(['invoice', 'category', 'product'])->paginate(10); // Eager load invoice, category, and products
+            return view('purchase.index',compact('purchases'), [
             'purchases' => $purchases, // Pass purchases to the view
         ]);
 
@@ -110,9 +110,21 @@ class PurchaseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Purchase $purchase)
+    public function destroy($PurchaseID)
     {
-        //
+        try {
+            // Find the purchase by ID
+            $purchase = Purchase::findOrFail($PurchaseID);
+
+            // Delete the purchase
+            $purchase->delete();
+
+            // Redirect with success message
+            return redirect()->route('purchase.index')->with('success', 'Purchase deleted successfully.');
+        } catch (\Exception $e) {
+            // Handle exception and redirect with an error message
+            return redirect()->route('purchase.index')->with('error', 'Failed to delete the purchase.');
+        }
     }
 }
 

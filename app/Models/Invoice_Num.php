@@ -10,17 +10,30 @@ class Invoice_Num extends Model
     use HasFactory;
 
     protected $table = "invoices";
+
+    // Primary key
+    protected $primaryKey = 'InvoiceID';
+
     protected $fillable = [
         'InvoiceNumber',
         'InvoiceType',
         'Source',
         'Amount',
+        'Quantity',
         'Description',
+        'ContractID',
         'SaleID',
         'PurchaseID',
         'TransactionID',
     ];
 
+    /**
+     * Get the contract associated with the invoice.
+     */
+    public function contract()
+    {
+        return $this->belongsTo(Contract::class, 'ContractID', 'ContractID');
+    }
     
     // Relationship: Belongs to Sale
     public function sale()
