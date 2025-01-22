@@ -39,8 +39,8 @@ class Supplier extends Model
      * Define a relationship with the Contract model.
      * One Supplier can have multiple Contracts.
      */
-    // public function contracts()
-    // {
-    //     return $this->hasMany(Contract::class, 'SupplierID', 'SupplierID');
-    // }
+    public function contracts()
+    {
+        return $this->hasMany(Contract::class, 'SupplierID', 'SupplierID');
+    }
 }

@@ -61,6 +61,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <div x-show="dropdown === 'dashboard'" class="flex space-x-8">
             <a href="{{ route('dashboard') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Dashboard</a>
+            <a href="{{ route('contract.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Contract</a>
+
         </div>
         <div x-show="dropdown === 'products'" class="flex space-x-8">
             <a href="{{ route('product.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Products</a>

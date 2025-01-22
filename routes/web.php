@@ -14,6 +14,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ContractController;
 // use App\Http\Controllers\Auth\LoginController;
 // use App\Http\Controllers\HRController;
 
@@ -89,6 +90,10 @@ Route::resource('transaction', TransactionController::class);
 Route::resource('product', ProductController::class);
 
 Route::resource('supplier', SupplierController::class);
+
+Route::resource('contract', ContractController::class);
+
+
 
 // Create a route that fetches products by CategoryID:
 Route::get('/get-products/{CategoryID}', [ProductController::class, 'getProductsByCategory']);
