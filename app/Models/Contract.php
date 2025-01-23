@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Invoice_Num;
 
 class Contract extends Model
 {
@@ -33,6 +34,11 @@ class Contract extends Model
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'SupplierID', 'SupplierID');
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice_Num::class, 'InvoiceID', 'InvoiceID');
     }
 
     /**

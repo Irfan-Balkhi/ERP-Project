@@ -77,24 +77,78 @@ class ContractController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Contract $contract)
+    public function edit($ContractID)
     {
-        //
+        $contract = Contract::findOrFail($ContractID); // Find the contract or throw a 404
+        $suppliers = Supplier::all(); // Get all suppliers for the dropdown
+        return view('contract.edit', compact('contract', 'suppliers'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contract $contract)
+    public function update(Request $request, $ContractID)
     {
-        //
+        $request->validate([
+            'SupplierID' => 'required|exists:suppliers,SupplierID',
+            'TotalValue' => 'required|numeric',
+            'TotalQuantity' => 'required|integer',
+            'ContractAttachment' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'StartDate' => 'required|date',
+            'EndDate' => 'required|date|after_or_equal:StartDate',
+        ]);
+
+        $contract = Contract::findOrFail($ContractID);
+
+        // Handle file upload if provided
+        if ($request->hasFile('ContractAttachment')) {
+            $file = $request->file('ContractAttachment');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('attachments', $filename, 'public');
+
+            // Delete the old attachment if exists
+            if ($contract->ContractAttachment) {
+                \Storage::disk('public')->delete('attachments/' . $contract->ContractAttachment);
+            }
+
+            // Update the file field
+            $contract->ContractAttachment = $filename;
+        }
+
+        // Update other fields dynamically
+        $contract->fill($request->only([
+            'SupplierID',
+            'TotalValue',
+            'TotalQuantity',
+            'StartDate',
+            'EndDate',
+        ]));
+
+        // Save the changes
+        $contract->save();
+
+        return redirect()->route('contract.index')->with('status', 'Contract updated successfully.');
     }
+
+
+    
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Contract $contract)
+    public function destroy($ContractID)
     {
-        //
+        $contract = Contract::findOrFail($ContractID);
+
+        // Delete the attachment if it exists
+        if ($contract->ContractAttachment) {
+            \Storage::disk('public')->delete('attachments/' . $contract->ContractAttachment);
+        }
+
+        // Delete the contract
+        $contract->delete();
+
+        return redirect()->route('contract.index')->with('status', 'Contract deleted successfully.');
     }
 }

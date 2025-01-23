@@ -7,8 +7,6 @@
   </head>
   <body>
 <x-app-layout>
-    {{-- <div class="container mx-auto px-4 mt-12"> --}}
-
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Invoices List') }}
@@ -16,8 +14,7 @@
 
         </h2>
     </x-slot>
-    
-    {{-- @section('content') --}}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> {{-- this class is for centerlizing the contents --}}
         <div class="container mt-6">
             <div class="row">
                 <div class="col-md-12">
@@ -60,6 +57,7 @@
                 </div>
             </div>
         </div>
+    </div>
         
 </x-app-layout>
 

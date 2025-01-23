@@ -72,9 +72,9 @@
                             <h4>Related Invoices</h4>
                         </div>
                         <div class="card-body">
-                            {{-- @if ($contract->invoices->isEmpty())
+                            @if ($contract->invoices->isEmpty())
                                 <p>No invoices found for this contract.</p>
-                            @else --}}
+                            @else
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
@@ -87,7 +87,7 @@
 
                                         </tr>
                                     </thead>
-                                    {{-- <tbody>
+                                    <tbody>
                                         @foreach ($contract->invoices as $invoice)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
@@ -98,9 +98,9 @@
                                             <td>{{ $invoice->Status }}</td>
                                         </tr>
                                         @endforeach
-                                    </tbody> --}}
+                                    </tbody>
                                 </table>
-                            {{-- @endif --}}
+                            @endif
                         </div>
                     </div>
                 </div>

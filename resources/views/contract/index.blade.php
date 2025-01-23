@@ -68,13 +68,14 @@
 
                                          <td>
                                             <a href="{{ route('contract.show', $contract->ContractID) }}" class="btn btn-success">Show</a>
-                                            {{--<a href="{{ route('contract.edit', $contract->id) }}" class="btn btn-warning">Edit</a>
-                                            <form action="{{ route('contract.destroy', $contract->id) }}" method="POST" id="delete-form-{{ $contract->id }}" style="display:inline;">
+                                            <a href="{{ route('contract.edit', $contract->ContractID) }}" class="btn btn-warning">Edit</a>
+                                            <form action="{{ route('contract.destroy', $contract->ContractID) }}" method="POST" id="delete-form-{{ $contract->ContractID }}" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            
+                                                <button type="button" onclick="confirmDelete(event, 'delete-form-{{ $contract->ContractID }}')" class="btn btn-danger btn-sm">Delete</button>
                                             </form>
-                                        </td> --}}
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
