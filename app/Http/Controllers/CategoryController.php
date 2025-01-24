@@ -167,5 +167,6 @@ class CategoryController extends BaseController
         // Redirect back to the index page with a success message
         return redirect()->route('categories.index')->with('success', 'Category deactivated successfully!');
     }
+    
 
 }

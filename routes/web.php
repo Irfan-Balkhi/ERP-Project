@@ -80,6 +80,10 @@ Route::group(['middleware' => ['role:Super Admin|Admin']], function()
 Route::resource('invoice', InvoiceNumController::class);
 
 Route::resource('purchase', PurchaseController::class);
+// Custom routes for dynamic fetching
+Route::get('/contracts/{contract}/supplier', [PurchaseController::class, 'getSupplierByContract']);
+Route::get('/categories/{category}/products', [PurchaseController::class, 'getProductsByCategory']);
+
 
 Route::resource('inventory', InventoryController::class);
 

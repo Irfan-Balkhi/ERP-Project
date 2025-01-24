@@ -19,33 +19,30 @@ class Purchase extends Model
     protected $fillable = [
         'SupplierID',
         'ContractID',
+        'ProductID',
+        'CategoryID',
         'PurchaseDate',
         'Description',
     ];
-
-    // Relationships
-
-    /**
-     * Get the supplier associated with the purchase.
-     */
-    // public function supplier()
-    // {
-    //     return $this->belongsTo(Supplier::class, 'SupplierID', 'SupplierID');
-    // }
-
-    /**
-     * Get the contract associated with the purchase.
-     */
-    // public function contract()
-    // {
-    //     return $this->belongsTo(Contract::class, 'ContractID', 'ContractID');
-    // }
-
-    /**
-     * Get the purchase details associated with the purchase.
-     */
-    // public function Purchase_Details()
-    // {
-    //     return $this->hasMany(Purchase_Details::class, 'Purchase_DetailID', 'Purchase_DetailID');
-    // }
+    
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'SupplierID', 'SupplierID');
+    }
+    
+    public function contract()
+    {
+        return $this->belongsTo(Contract::class, 'ContractID', 'ContractID');
+    }
+    
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'ProductID', 'ProductID');
+    }
+    
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'CategoryID', 'CategoryID');
+    }
+    
 }
