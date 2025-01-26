@@ -48,11 +48,7 @@
                                 <td>
                                     <a href="{{ route('purchase.show', $purchase->PurchaseID) }}" class="btn btn-success btn-sm">View</a>
                                     <a href="{{ route('purchase.edit', $purchase->PurchaseID) }}" class="btn btn-warning btn-sm">Edit</a>
-                                    {{-- <form action="{{ route('purchase.destroy', $purchase->PurchaseID) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                                    </form> --}}
+                                   
                                     <form action="{{ route('purchase.destroy', $purchase->PurchaseID) }}" method="POST" id="delete-form-{{ $purchase->PurchaseID }}" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
@@ -63,7 +59,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{-- {{ $purchase->links() }} --}}
+                    {{ $purchases->links() }}
                 </div>
             </div>
         </div>

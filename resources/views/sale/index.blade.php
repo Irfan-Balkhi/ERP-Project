@@ -15,56 +15,58 @@
         </h2>
     </x-slot>
 
-    <div class="container mt-6">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Note: Add the complete record of your sales here</h4>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Invoice Number</th>
-                                    <th>Customer Name</th>
-                                    <th>Product Name</th>
-                                    <th>Sale Date</th>
-                                    <th>Description</th>
-                                    <th>Purchased Unit</th>
-                                    <th>Quantity</th>
-                                    <th>Price Per Unit</th>
-                                    <th>Total</th>
-                                    <th>Action</th>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="container mt-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Note: Add the complete record of your sales here</h4>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Invoice Number</th>
+                                        <th>Customer Name</th>
+                                        <th>Product Name</th>
+                                        <th>Sale Date</th>
+                                        <th>Description</th>
+                                        <th>Purchased Unit</th>
+                                        <th>Quantity</th>
+                                        <th>Price Per Unit</th>
+                                        <th>Total</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($sales as $sale)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td> 
+                                        <td>{{ $sale->InvoiceNumber }}</td>
+                                        <td>{{ $sale->CustomerName }}</td>
+                                        <td>{{ $sale->product->ProductName ?? 'N/A' }}</td>
+                                        <td>{{ $sale->SaleDate }}</td>
+                                        <td>{{ $sale->Description }}</td>
+                                        <td>{{ $sale->PurchasedUnit }}</td>
+                                        <td>{{ $sale->Quantity }}</td>
+                                        <td>{{ $sale->PricePerUnit }}</td>
+                                        <td>{{ $sale->Total }}</td>
+                                        <td>
+                                            <a href="{{ route('sale.show', $sale->InvoiceNumber) }}" class="btn btn-success">Show</a>
+                                            {{-- <a href="{{ route('sale.edit', $sale->InvoiceNumber) }}" class="btn btn-warning">Edit</a> --}}
+                                            {{-- <form action="{{ route('sale.destroy', $sale->InvoiceNumber) }}" method="POST" style="display: inline-block;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form> --}}
+                                        </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($sales as $sale)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td> 
-                                    <td>{{ $sale->InvoiceNumber }}</td>
-                                    <td>{{ $sale->CustomerName }}</td>
-                                    <td>{{ $sale->product->ProductName ?? 'N/A' }}</td>
-                                    <td>{{ $sale->SaleDate }}</td>
-                                    <td>{{ $sale->Description }}</td>
-                                    <td>{{ $sale->PurchasedUnit }}</td>
-                                    <td>{{ $sale->Quantity }}</td>
-                                    <td>{{ $sale->PricePerUnit }}</td>
-                                    <td>{{ $sale->Total }}</td>
-                                    <td>
-                                        <a href="{{ route('sale.show', $sale->InvoiceNumber) }}" class="btn btn-success">Show</a>
-                                        {{-- <a href="{{ route('sale.edit', $sale->InvoiceNumber) }}" class="btn btn-warning">Edit</a> --}}
-                                        {{-- <form action="{{ route('sale.destroy', $sale->InvoiceNumber) }}" method="POST" style="display: inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form> --}}
-                                    </td>
-                               </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
