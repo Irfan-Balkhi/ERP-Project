@@ -15,58 +15,94 @@
         </h2>
     </x-slot>
 
-    <div class="container mt-6">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Note: Add the inventory details manually for purchased products.</h4>
-                    </div>
-                    <div class="card-body">
-                        <form action="{{ route('inventory.store') }}" method="POST">
-                            @csrf
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> {{-- Centering the content --}}
+        <div class="container mt-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Note: Add the extra expenses related to an invoice</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- Display validation errors -->
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 
-                            <div class="mb-3">
-                                <label for="PurchaseID" class="form-label">Select Purchase</label>
-                                <select class="form-control" id="PurchaseID" name="PurchaseID" required>
-                                    <option value="" disabled selected>Select a Purchase</option>
-                                    @foreach ($purchases as $purchase)
-                                        <option value="{{ $purchase->PurchaseID }}">{{ $purchase->InvoiceNumber }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <form action="{{ route('inventory.store') }}" method="POST">
+                                @csrf
 
-                            <div class="mb-3">
-                                <label for="ProductID" class="form-label">Select Product</label>
-                                <select class="form-control" id="ProductID" name="ProductID" required>
-                                    <option value="" disabled selected>Select a Product</option>
-                                    @foreach ($products as $product)
-                                        <option value="{{ $product->ProductID }}">{{ $product->ProductName }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                                <!-- Select Contract -->
+                                <div class="mb-3">
+                                    <label for="ContractID" class="form-label">Select Contract</label>
+                                    <select id="ContractID" class="form-select" required>
+                                        <option value="">-- Select Contract --</option>
+                                        @foreach ($contracts as $contract)
+                                            <option value="{{ $contract->ContractID }}">{{ $contract->ContractID }} - {{ $contract->supplier->CompanyName }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
-                            <div class="mb-3">
-                                <label for="Quantity" class="form-label">Quantity</label>
-                                <input type="number" class="form-control" id="Quantity" name="Quantity" min="1" placeholder="Enter Quantity" required>
-                            </div>
+                                <!-- Select Invoice -->
+                                <div class="mb-3">
+                                    <label for="InvoiceID" class="form-label">Select Invoice</label>
+                                    <select name="InvoiceID" id="InvoiceID" class="form-select" required>
+                                        <option value="">-- Select Invoice --</option>
+                                    </select>
+                                </div>
 
-                            <div class="mb-3">
-                                <label for="TotalPurchasedPrice" class="form-label">Total Purchased Price</label>
-                                <input type="number" step="0.01" class="form-control" id="TotalPurchasedPrice" name="TotalPurchasedPrice" placeholder="Enter Total Purchased Price" required>
-                            </div>
+                                <!-- Extra Expense -->
+                                <div class="mb-3">
+                                    <label for="ExtraExpense" class="form-label">Extra Expense</label>
+                                    <input type="number" step="0.01" class="form-control" name="ExtraExpense" id="ExtraExpense" required>
+                                </div>
 
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Add to Inventory</button>
-                            </div>
-                        </form>
+                                <!-- Description -->
+                                <div class="mb-3">
+                                    <label for="Description" class="form-label">Description (Optional)</label>
+                                    <textarea class="form-control" name="Description" id="Description" rows="3"></textarea>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary">Save Inventory</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    
     </div>
 </x-app-layout>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('ContractID').addEventListener('change', function() {
+        let contractID = this.value;
+        let invoiceSelect = document.getElementById('InvoiceID');
+        invoiceSelect.innerHTML = '<option value="">-- Select Invoice --</option>';
+
+        if (contractID) {
+            fetch(`/get-invoices/${contractID}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(invoice => {
+                        let option = document.createElement('option');
+                        option.value = invoice.InvoiceID;
+                        option.textContent = invoice.InvoiceNumber;
+                        invoiceSelect.appendChild(option);
+                    });
+                });
+        }
+    });
+</script>
 </body>
 </html>

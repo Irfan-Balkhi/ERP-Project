@@ -31,7 +31,9 @@
                                         <th>Type</th>
                                         <th>Source</th>
                                         <th>Date</th>
-                                        <th>Total Amount</th>
+                                        {{-- <th>Total Amount</th> --}}
+                                        <th>Amount</th>
+                                        <th>Quantity</th>
                                         <th>Payment Method</th>
                                         <th>Related ID</th>
                                         <th>Actions</th>
@@ -45,7 +47,8 @@
                                             <td>{{ ucfirst($invoice->InvoiceType) }}</td>
                                             <td>{{ ucfirst($invoice->InvoiceSource) }}</td>
                                             <td>{{ $invoice->Date }}</td>
-                                            <td>{{ $invoice->TotalAmount ?? 'N/A' }}</td>
+                                            <td>{{ $invoice->Amount ?? 'N/A' }}</td>
+                                            <td>{{ $invoice->Quantity ?? 'N/A' }}</td>
                                             <td>{{ $invoice->PaymentMethod ?? 'N/A' }}</td>
                                             <td>
                                                 @if ($invoice->InvoiceSource === 'Purchase')

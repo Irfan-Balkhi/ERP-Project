@@ -101,6 +101,10 @@ Route::group(['middleware' => ['role:Super Admin|Admin']], function()
 Route::get('/categories/{category}/products', function ($category) {
     return response()->json(Product::where('CategoryID', $category)->get());
 });
+
+Route::get('/get-invoices/{contractID}', [InventoryController::class, 'getInvoicesByContract']);
+Route::resource('inventory', InventoryController::class);
+
 // Route::get('/', [HomepageController::class,'index'])->name('homepage');
 
 

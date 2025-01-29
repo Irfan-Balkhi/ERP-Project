@@ -14,7 +14,8 @@
                 <a href="{{ route('inventory.create') }}" class="btn btn-primary float-end">Add Inventory</a>
             </h2>
         </x-slot>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> {{-- this class is for centerlizing the contents --}}
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="container mt-6">
                 <div class="row">
                     <div class="col-md-12">
@@ -27,12 +28,16 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            {{-- <th>Inventory ID</th> --}}
-                                            <th>Purchase ID</th>
-                                            <th>Product ID</th>
+                                            <th>Contract ID</th>
+                                            {{-- <th>Invoice ID</th> --}}
+                                            <th>Invoice Number</th>
+                                            <th>Supplier</th>
                                             <th>Product Name</th>
-                                            <th>Quantity</th>
-                                            <th>Total Purchased Price</th>
+                                            <th>Category</th>
+                                            <th>Amount</th>
+                                            {{-- <th>Quantity</th> --}}
+                                            <th>Extra Expense</th>
+                                            <th>Description</th>
                                             <th>Last Updated</th>
                                             <th>Action</th>
                                         </tr>
@@ -41,12 +46,16 @@
                                         @forelse ($inventories as $inventory)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            {{-- <td>{{ $inventory->InventoryID }}</td> --}}
-                                            <td>{{ $inventory->PurchaseID }}</td>
-                                            <td>{{ $inventory->ProductID }}</td>
-                                            <td>{{ $inventory->ProductName }}</td>
-                                            <td>{{ $inventory->Quantity }}</td>
-                                            <td>{{ $inventory->TotalPurchasedPrice }}</td>
+                                            <td>{{ $inventory->invoice->contract->ContractID }}</td>
+                                            {{-- <td>{{ $inventory->InvoiceID }}</td> --}}
+                                            <td>{{ $inventory->invoice->InvoiceNumber }}</td>
+                                            <td>{{ $inventory->invoice->contract->supplier->CompanyName }}</td>
+                                            <td>{{ $inventory->invoice->contract->product->ProductName }}</td>
+                                            <td>{{ $inventory->invoice->contract->product->category->Name }}</td>
+                                            <td>${{ number_format($inventory->invoice->Amount, 2) }}</td>
+                                            {{-- <td>${{ number_format($inventory->invoice->Quantity, 2) }}</td> --}}
+                                            <td>${{ number_format($inventory->ExtraExpense, 2) }}</td>
+                                            <td>{{ $inventory->Description ?? 'N/A' }}</td>
                                             <td>{{ $inventory->updated_at->format('d-m-Y H:i') }}</td>
                                             <td>
                                                 <a href="{{ route('inventory.edit', $inventory->InventoryID) }}" class="btn btn-warning btn-sm">Edit</a>

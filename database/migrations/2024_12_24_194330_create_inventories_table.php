@@ -13,17 +13,13 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id('InventoryID'); // Primary Key
-            $table->unsignedBigInteger('PurchaseID'); // Foreign Key for purchase table
-            $table->unsignedBigInteger('ProductID'); // Foreign Key for product table
-            $table->string('ProductName'); // Related to product table
-            $table->integer('Quantity'); // Related to purchase table
-            $table->decimal('TotalPurchasedPrice', 10, 2); // Related to purchase table
+            $table->unsignedBigInteger('InvoiceID'); // Foreign Key for invoices
+            $table->decimal('ExtraExpense', 12, 2); // Additional expenses
+            $table->string('Description')->nullable(); // Optional description
             $table->timestamps();
 
             // Foreign Key Constraints
-            $table->foreign('PurchaseID')->references('id')->on('purchases')->onDelete('cascade');
-            $table->foreign('ProductID')->references('id')->on('products')->onDelete('cascade');
-    
+            $table->foreign('InvoiceID')->references('InvoiceID')->on('invoices')->onDelete('cascade');
         });
     }
 

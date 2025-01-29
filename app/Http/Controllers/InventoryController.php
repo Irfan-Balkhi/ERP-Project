@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use Illuminate\Http\Request;
-use App\Models\Purchase;
+use App\Models\Contract;
 use App\Models\Product;
+use App\Models\Invoice_Num;
 
 class InventoryController extends Controller
 {
@@ -14,8 +15,9 @@ class InventoryController extends Controller
      */
     public function index()
     {
+        //with(['product', 'purchase'])->
         // Fetch all inventories with related product and purchase data
-        $inventories = Inventory::with(['product', 'purchase'])->get();
+        $inventories = Inventory::get();
 
         // Pass the data to the inventory index view
         return view('inventory.index', compact('inventories'));
@@ -25,9 +27,13 @@ class InventoryController extends Controller
      */
     public function create()
     {
-        $purchases = Purchase::all();
-        $products = Product::all();
-        return view('inventory.create', compact('purchases', 'products'));
+        $contracts = Contract::with('supplier')->get(); // Fetch contracts with suppliers
+        return view('inventory.create', compact('contracts'));
+    }
+    public function getInvoicesByContract($contractID)
+    {
+        $invoices = Invoice_Num::where('ContractID', $contractID)->select('InvoiceID', 'InvoiceNumber')->get();
+        return response()->json($invoices);
     }
 
     /**
@@ -35,22 +41,22 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'PurchaseID' => 'required|exists:purchases,PurchaseID',
-            'ProductID' => 'required|exists:products,ProductID',
-            'Quantity' => 'required|integer|min:1',
-            'TotalPurchasedPrice' => 'required|numeric|min:0',
+        // Validate the form data
+        $request->validate([
+            'InvoiceID'     => 'required|exists:invoices,InvoiceID',
+            'ExtraExpense'  => 'required|numeric|min:0',
+            'Description'   => 'nullable|string|max:255',
         ]);
 
+        // Create inventory record
         Inventory::create([
-            'PurchaseID' => $validated['PurchaseID'],
-            'ProductID' => $validated['ProductID'],
-            'ProductName' => Product::find($validated['ProductID'])->ProductName,
-            'Quantity' => $validated['Quantity'],
-            'TotalPurchasedPrice' => $validated['TotalPurchasedPrice'],
+            'InvoiceID'    => $request->InvoiceID,
+            'ExtraExpense' => $request->ExtraExpense,
+            'Description'  => $request->Description,
         ]);
 
-        return redirect()->route('inventory.index')->with('success', 'Inventory updated successfully.');
+        // Redirect with success message
+        return redirect()->route('inventory.index')->with('success', 'Inventory record added successfully.');
     }
 
     /**
@@ -64,17 +70,28 @@ class InventoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Inventory $inventory)
+    public function edit($InventoryID)
     {
-        //
+        $inventory = Inventory::findOrFail($InventoryID);
+        return view('inventory.edit', compact('inventory'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Inventory $inventory)
+    public function update(Request $request, $InventoryID)
     {
-        //
+        $request->validate([
+            'ExtraExpense' => 'required|numeric|min:0',
+            'Description' => 'nullable|string|max:255',
+        ]);
+
+        $inventory = Inventory::findOrFail($InventoryID);
+        $inventory->ExtraExpense = $request->ExtraExpense;
+        $inventory->Description = $request->Description;
+        $inventory->save();
+
+        return redirect()->route('inventory.index')->with('success', 'Inventory updated successfully!');
     }
 
     /**

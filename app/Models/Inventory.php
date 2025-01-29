@@ -10,24 +10,18 @@ class Inventory extends Model
     use HasFactory;
 
     protected $table = 'inventories';
-    protected $primaryKey = 'InventoryID';
+    protected $primaryKey = 'InventoryID'; // Custom primary key
 
     protected $fillable = [
-        'PurchaseID',
-        'ProductID',
-        'ProductName',
-        'Quantity',
-        'TotalPurchasedPrice',
+        'InvoiceID',
+        'ExtraExpense',
+        'Description',
     ];
 
     // Relationships
-    public function purchase()
+    public function invoice()
     {
-        return $this->belongsTo(Purchase::class, 'PurchaseID');
-    }
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'ProductID');  // Ensure the foreign key is correct
+        return $this->belongsTo(Invoice_Num::class, 'InvoiceID', 'InvoiceID');
     }
 }
 
