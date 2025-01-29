@@ -45,9 +45,11 @@
                                         <th>#</th>
                                         <th>Contract ID</th>
                                         <th>Supplier Name</th>
+                                        <th>Category</th>
+                                        <th>Product</th>
                                         <th>Total Value</th>
                                         <th>Total Quantity</th>
-                                        <th>Contract Attachment</th>
+                                        {{-- <th>Contract Attachment</th> --}}
                                         <th>Start Date</th>
                                         <th>End Date</th>
                                         <th>Action</th>
@@ -59,9 +61,12 @@
                                         <td>{{ ($contracts->currentPage() - 1) * $contracts->perPage() + $key + 1 }}</td>
                                         <td>{{ $contract->ContractID }}</td>
                                         <td>{{ $contract->supplier->CompanyName ?? 'N/A' }}</td> <!-- Safeguard for missing supplier -->
+                                        <td>{{ $contract->category->Name ?? 'N/A' }}</td> <!-- Safeguard for missing category -->
+                                        <td>{{ $contract->product->ProductName ?? 'N/A' }}</td>
+                                        
                                         <td>{{ $contract->TotalValue }}</td>
                                         <td>{{ $contract->TotalQuantity }}</td>
-                                        <td>{{ $contract->ContractAttachment }}</td>
+                                        {{-- <td>{{ $contract->ContractAttachment }}</td> --}}
                                         <td>{{ $contract->StartDate }}</td>
                                         <td>{{ $contract->EndDate }}</td>
 

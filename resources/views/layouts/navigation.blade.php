@@ -77,10 +77,13 @@
 
         </div>
         <div x-show="dropdown === 'sales'" class="flex space-x-8">
-            <a href="{{ route('purchase.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Purchase</a>
+            {{-- <a href="{{ route('purchase.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Purchase</a> --}}
             <a href="{{ route('sale.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Sales</a>
             <a href="{{ route('transaction.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Transaction</a>
             <a href="{{ route('invoice.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Invoice</a>
+            {{-- <a href="{{ route('invoice.options') }}" class="btn btn-primary">Invoice</a> --}}
+            {{-- <a onclick="showInvoiceOptions()" class="text-gray-800 dark:text-gray-200 cursor-pointer">Invoice</a> --}}
+
         </div>
         <div x-show="dropdown === 'management'" class="flex space-x-8">
             <a href="{{ route('finance.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Financials</a>

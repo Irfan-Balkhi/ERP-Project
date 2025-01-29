@@ -15,6 +15,8 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\PurchaseInvoiceController;
+use App\Models\Product;
 // use App\Http\Controllers\Auth\LoginController;
 // use App\Http\Controllers\HRController;
 
@@ -72,8 +74,33 @@ Route::group(['middleware' => ['role:Super Admin|Admin']], function()
 
 
 
+// Display the invoice selection page
+// Route::get('/invoice/options', [InvoiceNumController::class, 'showInvoiceOptions'])->name('invoice.options');
+
+// Redirect to appropriate pages
+// Route::get('/invoice/contract', [InvoiceNumController::class, 'redirectToContract'])->name('invoice.contract');
+// Route::get('/invoice/sale', [InvoiceNumController::class, 'redirectToSale'])->name('invoice.sale');
+// Route::get('/invoice/transaction', [InvoiceNumController::class, 'redirectToTransaction'])->name('invoice.transaction');
 
 
+//for invoice of the contracts
+// Route::get('/contract/list', [ContractController::class, 'showContracts'])->name('contract.list'); // Show contracts
+// Route::resource('purchaseinvoice', PurchaseInvoiceController::class)
+//     ->names([
+//         // 'index' => 'purchaseinvoice.index',
+//         'create' => 'purchaseinvoice.create',
+//         'store' => 'purchaseinvoice.store',
+//         // 'show' => 'purchaseinvoice.show',
+//         // 'edit' => 'purchaseinvoice.edit',
+//         // 'update' => 'purchaseinvoice.update',
+//         // 'destroy' => 'purchaseinvoice.destroy',
+//     ]);
+// Route::get('/purchaseinvoice/create/{contractId}', [PurchaseInvoiceController::class, 'create'])->name('purchaseinvoice.create');
+
+
+Route::get('/categories/{category}/products', function ($category) {
+    return response()->json(Product::where('CategoryID', $category)->get());
+});
 // Route::get('/', [HomepageController::class,'index'])->name('homepage');
 
 
@@ -83,6 +110,7 @@ Route::resource('purchase', PurchaseController::class);
 // Custom routes for dynamic fetching
 Route::get('/contracts/{contract}/supplier', [PurchaseController::class, 'getSupplierByContract']);
 Route::get('/categories/{category}/products', [PurchaseController::class, 'getProductsByCategory']);
+Route::get('/contracts/{ContractID}/details', [ContractController::class, 'getContractDetails']);
 
 
 Route::resource('inventory', InventoryController::class);

@@ -2,20 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Contract;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Supplier;
 
 
 class ContractController extends Controller
 {
+    // public function showContracts()
+    // {
+    //     $contracts = Contract::get();
+    //     return view('contract.list', compact('contracts'));
+    // }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         // Fetch contracts with their associated supplier
-        $contracts = Contract::with('supplier')->paginate(10); // Using eager loading for optimization
+        // $contracts = Contract::with('supplier')->paginate(10); // Using eager loading for optimization
+        $contracts = Contract::with(['supplier', 'product'])->paginate(10); // Load product with contract
 
         // Return the view with contracts
         return view('contract.index', compact('contracts'));
@@ -26,8 +35,9 @@ class ContractController extends Controller
      */
     public function create()
     {
-        $suppliers = Supplier::all(); // Fetch all suppliers
-        return view('contract.create', compact('suppliers'));
+        $categories = Category::all(); // Fetch categories
+        $suppliers = Supplier::all(); // Fetch suppliers
+        return view('contract.create', compact('suppliers', 'categories', 'products'));
     }
 
     /**
@@ -37,6 +47,8 @@ class ContractController extends Controller
     {
         $request->validate([
             'SupplierID' => 'required|integer|exists:suppliers,SupplierID',
+            'CategoryID' => 'required|integer|exists:categories,CategoryID',
+            'ProductID' => 'required|integer|exists:products,ProductID',
             'TotalValue' => 'required|numeric',
             'TotalQuantity' => 'required|integer',
             'ContractAttachment' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
@@ -46,6 +58,8 @@ class ContractController extends Controller
 
         $data = $request->only([
             'SupplierID',
+            'CategoryID',
+            'ProductID',
             'TotalValue',
             'TotalQuantity',
             'StartDate',
@@ -68,9 +82,10 @@ class ContractController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($CategoryID)
+    
+    public function show($ContractID)
     {
-        $contract = Contract::findOrFail($CategoryID);
+        $contract = Contract::with('invoices')->findOrFail($ContractID);
         return view('contract.show', compact('contract'));
     }
 

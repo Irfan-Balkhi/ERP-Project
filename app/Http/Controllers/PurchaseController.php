@@ -104,5 +104,18 @@ class PurchaseController extends Controller
         $products = Product::where('CategoryID', $CategoryID)->get();
         return response()->json($products);
     }
+    // public function getContractDetails($ContractID)
+    // {
+    //     $contract = Contract::where('ContractID', $ContractID)->first();
+    
+    //     if ($contract) {
+    //         return response()->json([
+    //             'TotalValue' => $contract->TotalValue ?? 0,
+    //             'TotalQuantity' => $contract->TotalQuantity ?? 0,
+    //         ]);
+    //     }
+    
+    //     return response()->json(['error' => 'Contract not found'], 404);
+    // }
 
 }

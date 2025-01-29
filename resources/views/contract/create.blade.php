@@ -29,6 +29,25 @@
                                 @endforeach
                             </select>
                         </div>
+                         <!-- Category Selection -->
+                         <div class="mb-3">
+                            <label for="CategoryID" class="form-label">Category</label>
+                            <select name="CategoryID" id="CategoryID" class="form-control" required>
+                                <option value="">-- Select Category --</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->CategoryID }}">{{ $category->Name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Product Selection -->
+                        <div class="mb-3">
+                            <label for="ProductID" class="form-label">Product</label>
+                            <select name="ProductID" id="ProductID" class="form-control" required>
+                                <option value="">-- Select Product --</option>
+                            </select>
+                        </div>
+
                         <div class="mb-3">
                             <label for="TotalValue" class="form-label">Total Value</label>
                             <input type="number" name="TotalValue" id="TotalValue" class="form-control" required>
@@ -61,6 +80,26 @@
         </div>
     </div>
 </x-app-layout>
+        
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#CategoryID').change(function () {
+            let categoryId = $(this).val();
+            if (categoryId) {
+                $.get(`/categories/${categoryId}/products`, function (data) {
+                    let productDropdown = $('#ProductID');
+                    productDropdown.empty().append('<option value="">-- Select Product --</option>');
+                    data.forEach(product => {
+                        productDropdown.append(`<option value="${product.ProductID}">${product.ProductName}</option>`);
+                    });
+                });
+            } else {
+                $('#ProductID').empty().append('<option value="">-- Select Product --</option>');
+            }
+        });
+    });
+</script>
 </body>
 </html>

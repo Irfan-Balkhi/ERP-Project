@@ -22,7 +22,7 @@ return new class extends Migration
         Schema::create('contracts', function (Blueprint $table) {
             
             $table->id('ContractID');
-            $table->unsignedBigInteger('SupplierID'); // Foreign key to suppliers table
+
             $table->decimal('TotalValue', 15, 2); // مبلغ مجموعی قرارداد
             $table->decimal('TotalQuantity'); // مقدار مجموعی قرارداد
             $table->string('ContractAttachment')->nullable();
@@ -30,7 +30,14 @@ return new class extends Migration
             $table->date('EndDate')->nullable();
             $table->timestamps();
 
-            $table->foreign('SupplierID')->references('SupplierID')->on('suppliers')->onDelete('cascade');
+            $table->unsignedBigInteger('SupplierID'); // Foreign key to suppliers table
+            $table->unsignedBigInteger('ProductID');
+            $table->unsignedBigInteger('CategoryID');
+            
+            $table->foreign('SupplierID')->references('SupplierID')->on('suppliers')->onDelete('set null');
+            $table->foreign('ProductID')->references('ProductID')->on('products')->onDelete('set null');
+            $table->foreign('CategoryID')->references('CategoryID')->on('categories')->onDelete('set null');
+
         });
     }
 

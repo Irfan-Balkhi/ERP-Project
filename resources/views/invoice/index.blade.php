@@ -26,29 +26,53 @@
                             <table class="table table-stiped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Number</th>
+                                        <th>#</th>
                                         <th>Invoice Number</th>
-                                        <th>Invoice Type</th>
+                                        <th>Type</th>
                                         <th>Source</th>
-                                        <th>Amount</th>
-                                        <th>Description</th>
-                                        <th>Action</th>
+                                        <th>Date</th>
+                                        <th>Total Amount</th>
+                                        <th>Payment Method</th>
+                                        <th>Related ID</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($invoices as $invoice)
+                                    @forelse ($invoices as $invoice)
                                         <tr>
-                                            <td>{{ $invoice->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $invoice->InvoiceNumber }}</td>
-                                            <td>{{ $invoice->InvoiceType }}</td>
-                                            <td>{{ $invoice->Source }}</td>
-                                            <td>{{ $invoice->Amount }}</td>
-                                            <td>{{ $invoice->Description }}</td>
+                                            <td>{{ ucfirst($invoice->InvoiceType) }}</td>
+                                            <td>{{ ucfirst($invoice->InvoiceSource) }}</td>
+                                            <td>{{ $invoice->Date }}</td>
+                                            <td>{{ $invoice->TotalAmount ?? 'N/A' }}</td>
+                                            <td>{{ $invoice->PaymentMethod ?? 'N/A' }}</td>
                                             <td>
-                                                <a href="{{ route('invoice.show', $invoice->id)}}" class="btn btn-success">Show</a>
+                                                @if ($invoice->InvoiceSource === 'Purchase')
+                                                    Contract #{{ $invoice->ContractID ?? 'N/A' }}
+                                                @elseif ($invoice->InvoiceSource === 'Sale')
+                                                    Sale #{{ $invoice->SaleID ?? 'N/A' }}
+                                                @elseif ($invoice->InvoiceSource === 'Transaction')
+                                                    Transaction #{{ $invoice->TransactionID ?? 'N/A' }}
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('invoice.show', $invoice->InvoiceID) }}" class="btn btn-info btn-sm">View</a>
+                                                <a href="{{ route('invoice.edit', $invoice->InvoiceID) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                <form action="{{ route('invoice.destroy', $invoice->InvoiceID) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                                                </form>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="9" class="text-center">No invoices found.</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                             {{ $invoices->links() }}

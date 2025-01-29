@@ -11,7 +11,9 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Contract Details') }}
-            <a href="{{ route('contract.index') }}" class="btn btn-danger float-end">Back</a>
+            {{-- <a href="{{ route('purchaseinvoice.create') }}" class="btn btn-primary float-end">Create Invoice</a> --}}
+            {{-- <a href="{{ route('purchaseinvoice.create', ['ContractID' => $contract->ContractID]) }}" class="btn btn-primary float-end">Create Invoice</a> --}}
+
         </h2>
     </x-slot>
 
@@ -68,8 +70,10 @@
 
                     <!-- Related Invoices -->
                     <div class="card mt-4">
-                        <div class="card-header">
+                        <div class="card-header inline-flex justify-content-between">
                             <h4>Related Invoices</h4>
+                            <a href="{{ route('invoice.create') }}" class="btn btn-primary float-end ">Add Invoice</a>
+
                         </div>
                         <div class="card-body">
                             @if ($contract->invoices->isEmpty())
@@ -79,6 +83,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>Invoice ID</th>
                                             <th>Invoice Number</th>
                                             <th>Amount</th>
                                             <th>Issue Date</th>
@@ -96,6 +101,15 @@
                                             <td>$ {{ $invoice->Amount }}</td>
                                             <td>{{ $invoice->IssueDate }}</td>
                                             <td>{{ $invoice->Status }}</td>
+                                            <td>
+                                                <a href="{{ route('invoice.edit', [$contract->ContractID, $invoice->InvoiceID]) }}" class="btn btn-warning btn-sm">Edit</a>
+        
+                                                <form action="{{ route('invoice.destroy', [$contract->ContractID, $invoice->InvoiceID]) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this invoice?')">Delete</button>
+                                                </form>
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>

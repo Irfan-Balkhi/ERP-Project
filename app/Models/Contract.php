@@ -19,6 +19,8 @@ class Contract extends Model
     // Fields that can be mass assigned
     protected $fillable = [
         'SupplierID',
+        'CategoryID',
+        'ProductID',
         'TotalValue',
         'TotalQuantity',
         'ContractAttachment',
@@ -38,14 +40,26 @@ class Contract extends Model
 
     public function invoices()
     {
-        return $this->hasMany(Invoice_Num::class, 'InvoiceID', 'InvoiceID');
+        // return $this->hasMany(Invoice_Num::class, 'InvoiceID', 'InvoiceID');
+        return $this->hasMany(Invoice_Num::class, 'ContractID', 'ContractID');
+
     }
 
     /**
      * Get the purchases associated with the contract.
      */
-    public function purchases()
+    // public function purchases()
+    // {
+    //     return $this->hasMany(Purchase::class, 'ContractID', 'ContractID');
+    // }
+
+    public function category()
     {
-        return $this->hasMany(Purchase::class, 'ContractID', 'ContractID');
+        return $this->belongsTo(Category::class, 'CategoryID', 'CategoryID');
+    }
+    // Relationship with Product
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'ProductID', 'ProductID');
     }
 }
