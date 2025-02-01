@@ -12,7 +12,7 @@ class Invoice_Num extends Model
     // Specify the correct table name
     protected $table = 'invoices';
     // Specify the primary key if it doesn't follow the default "id"
-    protected $primaryKey = 'InvoiceID';
+    protected $primaryKey = 'InvoiceID'; // Specify custom primary key
 
     // Define the attributes that can be mass-assigned
     protected $fillable = [

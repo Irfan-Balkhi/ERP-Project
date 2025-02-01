@@ -37,47 +37,90 @@ class ContractController extends Controller
     {
         $categories = Category::all(); // Fetch categories
         $suppliers = Supplier::all(); // Fetch suppliers
-        return view('contract.create', compact('suppliers', 'categories', 'products'));
+        return view('contract.create', compact('suppliers', 'categories'));
+        // return view('contract.create', compact('suppliers', 'categories', 'products'));
+
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'SupplierID' => 'required|integer|exists:suppliers,SupplierID',
-            'CategoryID' => 'required|integer|exists:categories,CategoryID',
-            'ProductID' => 'required|integer|exists:products,ProductID',
-            'TotalValue' => 'required|numeric',
-            'TotalQuantity' => 'required|integer',
-            'ContractAttachment' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
-            'StartDate' => 'required|date',
-            'EndDate' => 'required|date|after_or_equal:StartDate',
-        ]);
 
-        $data = $request->only([
-            'SupplierID',
-            'CategoryID',
-            'ProductID',
-            'TotalValue',
-            'TotalQuantity',
-            'StartDate',
-            'EndDate',
-        ]);
-
-        // Handle file upload
-        if ($request->hasFile('ContractAttachment')) {
-            $file = $request->file('ContractAttachment');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('attachments', $filename, 'public');
-            $data['ContractAttachment'] = $filename;
-        }
-
-        Contract::create($data);
-
+     public function store(Request $request)
+     {
+         // Validate the request data
+         $validated = $request->validate([
+             'SupplierID' => 'required|integer|exists:suppliers,SupplierID',
+             'CategoryID' => 'required|integer|exists:categories,CategoryID',
+             'ProductID' => 'required|integer|exists:products,ProductID',
+             'TotalValue' => 'required|numeric',
+             'TotalQuantity' => 'required|integer',
+             'ContractAttachment' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+             'StartDate' => 'required|date',
+             'EndDate' => 'required|date|after_or_equal:StartDate',
+         ]);
+     
+         // Prepare contract data
+         $contractData = [
+             'SupplierID' => $request->SupplierID,
+             'CategoryID' => $request->CategoryID,
+             'ProductID' => $request->ProductID,
+             'TotalValue' => $request->TotalValue,
+             'TotalQuantity' => $request->TotalQuantity,
+             'StartDate' => $request->StartDate,
+             'EndDate' => $request->EndDate,
+         ];
+     
+         // Handle file upload
+         if ($request->hasFile('ContractAttachment')) {
+             $file = $request->file('ContractAttachment');
+             $filename = time() . '_' . $file->getClientOriginalName();
+             $file->storeAs('attachments', $filename, 'public');
+             $contractData['ContractAttachment'] = $filename;
+         }
+     
+         // Create contract
+         $contract = Contract::create($contractData);
+     
+         // Return a response
         return redirect()->route('contract.index')->with('status', 'Contract created successfully.');
-    }
+}
+
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'SupplierID' => 'required|integer|exists:suppliers,SupplierID',
+    //         'CategoryID' => 'required|integer|exists:categories,CategoryID',
+    //         'ProductID' => 'required|integer|exists:products,ProductID',
+    //         'TotalValue' => 'required|numeric',
+    //         'TotalQuantity' => 'required|integer',
+    //         'ContractAttachment' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+    //         'StartDate' => 'required|date',
+    //         'EndDate' => 'required|date|after_or_equal:StartDate',
+    //     ]);
+
+    //     $data = $request->only([
+    //         'SupplierID',
+    //         'CategoryID',
+    //         'ProductID',
+    //         'TotalValue',
+    //         'TotalQuantity',
+    //         'StartDate',
+    //         'EndDate',
+    //     ]);
+
+    //     // Handle file upload
+    //     if ($request->hasFile('ContractAttachment')) {
+    //         $file = $request->file('ContractAttachment');
+    //         $filename = time() . '_' . $file->getClientOriginalName();
+    //         $file->storeAs('attachments', $filename, 'public');
+    //         $data['ContractAttachment'] = $filename;
+    //     }
+
+    //     Contract::create($data);
+
+    //     return redirect()->route('contract.index')->with('status', 'Contract created successfully.');
+    // }
 
     /**
      * Display the specified resource.

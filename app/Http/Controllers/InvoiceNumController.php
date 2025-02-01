@@ -41,41 +41,41 @@ class InvoiceNumController extends Controller
      */
     public function store(Request $request)
     {
- 
-    // Validate the request data
-    $request->validate([
-        'InvoiceNumber' => 'required|string|unique:invoices,InvoiceNumber',
-        'InvoiceType' => 'required|in:internal,external',
-        'InvoiceSource' => 'required|in:Purchase,Sale,Transaction',
-        'Date' => 'required|date',
-        'TotalAmount' => 'nullable|numeric',
-        'PaymentMethod' => 'nullable|string|required_if:InvoiceType,external',
-        'Amount' => 'nullable|numeric',
-        'Quantity' => 'nullable|numeric',
-        'Description' => 'nullable|string',
-        'ContractID' => 'nullable|integer|exists:contracts,ContractID|required_if:InvoiceSource,Purchase',
-        'SaleID' => 'nullable|integer|exists:sales,SaleID|required_if:InvoiceSource,Sale',
-        'TransactionID' => 'nullable|integer|exists:transactions,TransactionID|required_if:InvoiceSource,Transaction',
-    ]);
+    
+        // Validate the request data
+        $request->validate([
+            'InvoiceNumber' => 'required|string|unique:invoices,InvoiceNumber',
+            'InvoiceType' => 'required|in:internal,external',
+            'InvoiceSource' => 'required|in:Purchase,Sale,Transaction',
+            'Date' => 'required|date',
+            'PaymentMethod' => 'nullable|string|required_if:InvoiceType,external',
+            'Amount' => 'nullable|numeric',
+            'Quantity' => 'nullable|numeric',
+            'TotalAmount' => 'nullable|numeric',
+            'Description' => 'nullable|string',
+            'ContractID' => 'nullable|integer|exists:contracts,ContractID|required_if:InvoiceSource,Purchase',
+            'SaleID' => 'nullable|integer|exists:sales,SaleID|required_if:InvoiceSource,Sale',
+            'TransactionID' => 'nullable|integer|exists:transactions,TransactionID|required_if:InvoiceSource,Transaction',
+        ]);
 
-    // Create invoice
-    $invoice = Invoice_Num::create([
-        'InvoiceNumber' => $request->InvoiceNumber,
-        'InvoiceType' => $request->InvoiceType,
-        'InvoiceSource' => $request->InvoiceSource,
-        'Date' => $request->Date,
-        'TotalAmount' => $request->TotalAmount,
-        'PaymentMethod' => $request->InvoiceType === 'external' ? $request->PaymentMethod : null,
-        'Amount' => $request->Amount,
-        'Quantity' => $request->Quantity,
-        'Description' => $request->Description,
-        'ContractID' => $request->InvoiceSource === 'Purchase' ? $request->ContractID : null,
-        'SaleID' => $request->InvoiceSource === 'Sale' ? $request->SaleID : null,
-        'TransactionID' => $request->InvoiceSource === 'Transaction' ? $request->TransactionID : null,
-    ]);
+        // Create invoice
+        $invoice = Invoice_Num::create([
+            'InvoiceNumber' => $request->InvoiceNumber,
+            'InvoiceType' => $request->InvoiceType,
+            'InvoiceSource' => $request->InvoiceSource,
+            'Date' => $request->Date,
+            'PaymentMethod' => $request->InvoiceType === 'external' ? $request->PaymentMethod : null,
+            'Amount' => $request->Amount,
+            'Quantity' => $request->Quantity,
+            'TotalAmount' => $request->TotalAmount,
+            'Description' => $request->Description,
+            'ContractID' => $request->InvoiceSource === 'Purchase' ? $request->ContractID : null,
+            'SaleID' => $request->InvoiceSource === 'Sale' ? $request->SaleID : null,
+            'TransactionID' => $request->InvoiceSource === 'Transaction' ? $request->TransactionID : null,
+        ]);
 
-    return redirect()->route('invoice.index')->with('status', 'Invoice created successfully.');
-}
+        return redirect()->route('invoice.index')->with('status', 'Invoice created successfully.');
+    }
 
         // $request->validate([
         //     'Source' => 'required|in:purchase,sale,transaction,manual',
@@ -136,8 +136,11 @@ class InvoiceNumController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Invoice_Num $invoice_Num)
+    public function destroy(Invoice_Num $invoice)
     {
-        //
+        // Delete the invoice
+        $invoice->delete();
+
+        return redirect()->route('invoice.index')->with('success', 'Invoice deleted successfully.');
     }
 }

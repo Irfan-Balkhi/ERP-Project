@@ -70,12 +70,6 @@
                             <input type="date" name="Date" id="Date" class="form-control" required>
                         </div>
 
-                        <!-- Total Amount -->
-                        <div class="mb-3">
-                            <label for="TotalAmount" class="form-label">Total Amount</label>
-                            <input type="number" step="0.01" name="TotalAmount" id="TotalAmount" class="form-control">
-                        </div>
-
                         <!-- Payment Method (Only for external invoices) -->
                         <div class="mb-3" id="paymentMethodField" style="display: none;">
                             <label for="PaymentMethod" class="form-label">Payment Method</label>
@@ -84,7 +78,7 @@
 
                         <!-- Amount -->
                         <div class="mb-3">
-                            <label for="Amount" class="form-label">Amount</label>
+                            <label for="Amount" class="form-label">Price Per Unit</label>
                             <input type="number" step="0.01" name="Amount" id="Amount" class="form-control">
                         </div>
 
@@ -92,6 +86,12 @@
                         <div class="mb-3">
                             <label for="Quantity" class="form-label">Quantity</label>
                             <input type="number" step="0.01" name="Quantity" id="Quantity" class="form-control">
+                        </div>
+
+                        <!-- Total Amount -->
+                        <div class="mb-3">
+                            <label for="TotalAmount" class="form-label">Total Amount</label>
+                            <input type="number" step="0.01" name="TotalAmount" id="TotalAmount" class="form-control">
                         </div>
 
                         <!-- Description -->
@@ -146,7 +146,18 @@
         if (!invoiceNumberField.value) {
             invoiceNumberField.value = generateInvoiceNumber();
         }
-    });</script>
+    });
+    
+     // Update `Total` on input
+     document.getElementById('Amount').addEventListener('input', calculateTotal);
+            document.getElementById('Quantity').addEventListener('input', calculateTotal);
+
+        function calculateTotal() {
+            let price = parseFloat(document.getElementById('Amount').value) || 0;
+            let quantity = parseFloat(document.getElementById('Quantity').value) || 0;
+            document.getElementById('TotalAmount').value = ((price * quantity)).toFixed(2);
+        }
+    </script>
 
 
 

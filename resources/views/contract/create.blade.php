@@ -11,6 +11,8 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Add Contract') }}
+            <a href="{{ route('contract.index') }}" class="btn btn-danger float-end">Back</a>
+
         </h2>
     </x-slot>
 
@@ -56,10 +58,7 @@
                             <label for="TotalQuantity" class="form-label">Total Quantity</label>
                             <input type="number" name="TotalQuantity" id="TotalQuantity" class="form-control" required>
                         </div>
-                        {{-- <div class="mb-3">
-                            <label for="ContractAttachment" class="form-label">Contract Attachment</label>
-                            <input type="file" name="ContractAttachment" id="ContractAttachment" class="form-control" required>
-                        </div> --}}
+                        
                         <!-- Bill Attachment -->
                         <div class="form-group">
                             <label for="ContractAttachment">Contract Attachment (PDF/JPG/PNG)</label><br>

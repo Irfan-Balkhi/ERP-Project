@@ -31,10 +31,10 @@
                                         <th>Type</th>
                                         <th>Source</th>
                                         <th>Date</th>
-                                        {{-- <th>Total Amount</th> --}}
-                                        <th>Amount</th>
+                                        <th>Price Per Unit</th>
                                         <th>Quantity</th>
-                                        <th>Payment Method</th>
+                                        <th>Total Amount</th>
+                                        {{-- <th>Payment Method</th> --}}
                                         <th>Related ID</th>
                                         <th>Actions</th>
                                     </tr>
@@ -49,7 +49,8 @@
                                             <td>{{ $invoice->Date }}</td>
                                             <td>{{ $invoice->Amount ?? 'N/A' }}</td>
                                             <td>{{ $invoice->Quantity ?? 'N/A' }}</td>
-                                            <td>{{ $invoice->PaymentMethod ?? 'N/A' }}</td>
+                                            <td>{{ $invoice->TotalAmount ?? 'N/A' }}</td>
+                                            {{-- <td>{{ $invoice->PaymentMethod ?? 'N/A' }}</td> --}}
                                             <td>
                                                 @if ($invoice->InvoiceSource === 'Purchase')
                                                     Contract #{{ $invoice->ContractID ?? 'N/A' }}
