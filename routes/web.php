@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\PurchaseInvoiceController;
 use App\Models\Product;
 // use App\Http\Controllers\Auth\LoginController;
@@ -32,6 +35,21 @@ Route::post('login', [LoginController::class, 'login']);
 Route::get('/', function () {
     return view('auth.login');
 });
+
+
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/login'); // Redirect to the login page
+})->name('logout');
+
+// for password
+// Route::get('/password', [App\Http\Controllers\Auth\PasswordController::class, 'editPassword'])->name('password.edit');
+// Route::patch('/password', [App\Http\Controllers\Auth\PasswordController::class, 'updatePassword'])->name('password.update');
+
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard'); // Add name to the route
@@ -44,6 +62,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::patch('/password', [PasswordController::class, 'updatePassword'])->name('password.update'); // Ensure this line uses 'patch'
+
 });
 
 // require __DIR__.'/auth.php';

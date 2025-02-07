@@ -37,6 +37,31 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
+    public function showPasswordForm()
+    {
+        return view('/profile/password.update');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'min:8', 'confirmed'],
+            'password_confirmation' => ['required', 'min:8', 'confirmed'],
+        
+            // 'current_password' => 'password',
+                // 'password' => 'new-password',
+                // 'password_confirmation' => 'new-password',
+            
+        ]);
+
+        $request->user()->update([
+            'password' => bcrypt($request->password),
+        ]);
+
+        return redirect('/profile');
+    }
+
     /**
      * Delete the user's account.
      */

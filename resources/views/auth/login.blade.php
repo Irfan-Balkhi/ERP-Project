@@ -38,5 +38,9 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
+
+        <div class="flex items-center justify-center mt-4">
+            <span>Developed by: Mohammad Irfan Balkhi</span>
+        </div>
     </form>
 </x-guest-layout>
