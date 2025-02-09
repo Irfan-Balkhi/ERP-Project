@@ -1,10 +1,20 @@
-// import './bootstrap';
+// // import './bootstrap';
 
-// import Alpine from 'alpinejs';
+// // import Alpine from 'alpinejs';
 
-// window.Alpine = Alpine;
+// // window.Alpine = Alpine;
 
-// Alpine.start();
+// // Alpine.start();
+
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+import './bootstrap';
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+
+Alpine.start();
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
