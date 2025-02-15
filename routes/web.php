@@ -4,6 +4,8 @@ use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Invoice_Num;
+
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
@@ -18,6 +20,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\Auth\PasswordController;
+
 use App\Http\Controllers\PurchaseInvoiceController;
 use App\Models\Product;
 // use App\Http\Controllers\Auth\LoginController;
@@ -54,6 +57,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard'); // Add name to the route
 
+Route::get('/dashboard', function () {
+    $newInvoices = Invoice_Num::orderBy('created_at', 'desc')->take(3)->get();
+    return view('dashboard', compact('newInvoices'));
+})->middleware(['auth'])->name('dashboard');
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 //   }); //->middleware(['auth', 'verified'])->name('dashboard');
