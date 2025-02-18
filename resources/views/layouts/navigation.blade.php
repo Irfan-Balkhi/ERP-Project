@@ -94,7 +94,7 @@
                 <a href="{{ route('permission.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">HR</a>
             @endcan
 
-            <a href="{{ route('dashboard') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Reports</a>
+            <a href="{{ route('report.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Reports</a>
         </div>
     </div>
 </div>

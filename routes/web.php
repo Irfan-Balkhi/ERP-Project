@@ -22,6 +22,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\ReportController;
 
 use App\Http\Controllers\PurchaseInvoiceController;
 use App\Models\Product;
@@ -160,6 +161,10 @@ Route::resource('contract', ContractController::class);
 
 Route::resource('account', AccountController::class);
 
+// for Report Section
+// Route::resource('report', ReportController::class);
+Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+// Route::get('/report/download', [ReportController::class, 'downloadReport'])->name('report.download');
 
 
 // Create a route that fetches products by CategoryID:
