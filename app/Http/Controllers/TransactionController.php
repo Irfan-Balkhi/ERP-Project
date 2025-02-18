@@ -3,96 +3,106 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\Supplier;
+use App\Models\Account;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the transactions.
      */
     public function index()
     {
-        // return view("transaction.index");
-        $transactions = Transaction::with('invoice')->paginate(10);
-        return view("transaction.index", [
-            'transactions' => $transactions // Pass transactions to the view
-        ]);
+        $transactions = Transaction::with(['supplier', 'account'])->latest()->paginate(10); // Fix: Use paginate()
+        return view('transaction.index', compact('transactions'));
     }
 
+
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new transaction.
      */
     public function create()
     {
-        return view("transaction.create");
+        $suppliers = Supplier::all();
+        $accounts = Account::all();
+        return view('transaction.create', compact('suppliers', 'accounts'));
     }
 
-    
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created transaction in storage.
      */
-
     public function store(Request $request)
     {
-    
-            // Validate the request
-            $validated = $request->validate([
-                'InvoiceNumber' => 'required|unique:transactions|max:255',
-                'SupplierName' => 'required|string|max:255',
-                'TransactionType' => 'required|in:Purchase,Sale,Payment,Refund,Transfer',
-                'Amount' => 'required|numeric|min:0',
-                'TransactionDate' => 'required|date',
-                'PaymentMethod' => 'required|in:Cash,Bank Transfer,Credit,Cheque',
-                'Status' => 'required|in:Pending,Completed,Cancelled',
-                'Description' => 'nullable|string|max:500',
-            ]);
+        $request->validate([
+            'TransactionID' => 'required|string|unique:transactions,TransactionID',
+            'CustomerName' => 'required|string|max:255',
+            'amount' => 'required|numeric|min:0',
+            'transaction_type' => 'required|in:income,expense,transfer',
+            'source' => 'required|in:payment_to_supplier,salary_payment,daily_expense,payment_to_distributors,customer_payment_received,transfer_to_sarrafi,transfer_to_cash,miscellaneous_income,other_expense',
+            'description' => 'nullable|string',
+            'transaction_date' => 'required|date',
+            'SupplierID' => 'nullable|exists:suppliers,SupplierID',
+            'accountID' => 'required|exists:accounts,accountID',
+        ]);
 
+        Transaction::create([
+            'TransactionID' => $request->TransactionID, // Added
+            'CustomerName' => $request->CustomerName,
+            'amount' => $request->amount,
+            'transaction_type' => $request->transaction_type,
+            'source' => $request->source,
+            'description' => $request->description,
+            'transaction_date' => $request->transaction_date,
+            'SupplierID' => $request->SupplierID,
+            'accountID' => $request->accountID,
+        ]);
         
-            // Create a transaction
-            $transaction = Transaction::create([
-                'InvoiceNumber' => $request->InvoiceNumber,
-                'SupplierName' => $request->SupplierName,
-                'TransactionType' => $request->TransactionType,
-                'Amount' => $request->Amount,
-                'TransactionDate' => $request->TransactionDate,
-                'PaymentMethod' => $request->PaymentMethod,
-                'Status' => $request->Status,
-                'Description' => $request->Description,
-            ]);
 
-        
-            return redirect()->route('transaction.index')->with('success', 'Transaction created successfully!');
-        }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Transaction $transaction)
-    {
-        //
+        return redirect()->route('transaction.index')->with('success', 'Transaction added successfully.');
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified transaction.
      */
-    public function edit(Transaction $transaction)
+    public function edit($id)
     {
-        //
+        $transaction = Transaction::findOrFail($id);
+        $suppliers = Supplier::all();
+        $accounts = Account::all();
+        return view('transaction.edit', compact('transaction', 'suppliers', 'accounts'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified transaction in storage.
      */
-    public function update(Request $request, Transaction $transaction)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'CustomerName' => 'required|string|max:255',
+            'amount' => 'required|numeric|min:0',
+            'transaction_type' => 'required|in:income,expense,transfer',
+            'source' => 'required|in:payment_to_supplier,salary_payment,daily_expense,payment_to_distributors,customer_payment_received,transfer_to_sarrafi,transfer_to_cash,miscellaneous_income,other_expense',
+            'description' => 'nullable|string',
+            'transaction_date' => 'required|date',
+            'SupplierID' => 'nullable|exists:suppliers,SupplierID',
+            'accountID' => 'required|exists:accounts,accountID',
+        ]);
+
+        $transaction = Transaction::findOrFail($id);
+        $transaction->update($request->all());
+
+        return redirect()->route('transaction.index')->with('success', 'Transaction updated successfully.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified transaction from storage.
      */
-    public function destroy(Transaction $transaction)
+    public function destroy($id)
     {
-        //
+        $transaction = Transaction::findOrFail($id);
+        $transaction->delete();
+
+        return redirect()->route('transaction.index')->with('success', 'Transaction deleted successfully.');
     }
 }

@@ -15,10 +15,10 @@
                     Dashboard
                 </button>
                 <button @mouseenter="dropdown = 'products'" @click="dropdown = dropdown === 'products' ? null : 'products'" class="font-medium text-gray-800 dark:text-gray-200">
-                    Products & Inventory
+                    Products & Supplier
                 </button>
                 <button @mouseenter="dropdown = 'sales'" @click="dropdown = dropdown === 'sales' ? null : 'sales'" class="font-medium text-gray-800 dark:text-gray-200">
-                    Sales & Transactions
+                    Sales & Inventory
                 </button>
                 <button @mouseenter="dropdown = 'management'" @click="dropdown = dropdown === 'management' ? null : 'management'" class="font-medium text-gray-800 dark:text-gray-200">
                     Management & Reports
@@ -61,17 +61,16 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <div x-show="dropdown === 'dashboard'" class="flex space-x-8">
             <a href="{{ route('dashboard') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Dashboard</a>
-            <a href="{{ route('contract.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Contract</a>
 
         </div>
         <div x-show="dropdown === 'products'" class="flex space-x-8">
             <a href="{{ route('product.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Products</a>
-    
+            <a href="{{ route('contract.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Contract</a>
+
             @can('category index')
                 <a href="{{ route('category.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Categories</a>
             @endcan
             
-            <a href="{{ route('inventory.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Inventory</a>
 
             <a href="{{ route('supplier.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Supplier</a>
 
@@ -79,16 +78,18 @@
         <div x-show="dropdown === 'sales'" class="flex space-x-8">
             {{-- <a href="{{ route('purchase.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Purchase</a> --}}
             <a href="{{ route('sale.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Sales</a>
-            <a href="{{ route('transaction.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Transaction</a>
             <a href="{{ route('invoice.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Invoice</a>
+            <a href="{{ route('inventory.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Inventory</a>
+
             {{-- <a href="{{ route('invoice.options') }}" class="btn btn-primary">Invoice</a> --}}
             {{-- <a onclick="showInvoiceOptions()" class="text-gray-800 dark:text-gray-200 cursor-pointer">Invoice</a> --}}
 
         </div>
         <div x-show="dropdown === 'management'" class="flex space-x-8">
-            <a href="{{ route('finance.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Financials</a>
-            <a href="{{ route('expense.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Expenses</a>
-            
+            {{-- <a href="{{ route('finance.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Financials</a> --}}
+            {{-- <a href="{{ route('expense.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Expenses</a> --}}
+            <a href="{{ route('transaction.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">Financials</a>
+
              @can('permission index') {{-- Permission for the roles that can or can not use a function using blade --}}
                 <a href="{{ route('permission.index') }}" class="text-gray-800 dark:text-gray-200 hover:text-blue-500">HR</a>
             @endcan

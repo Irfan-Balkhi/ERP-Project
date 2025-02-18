@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Models\Account;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,7 @@ use App\Http\Controllers\InvoiceNumController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\FinanceController;
@@ -155,6 +157,8 @@ Route::resource('product', ProductController::class);
 Route::resource('supplier', SupplierController::class);
 
 Route::resource('contract', ContractController::class);
+
+Route::resource('account', AccountController::class);
 
 
 

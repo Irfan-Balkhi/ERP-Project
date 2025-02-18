@@ -28,11 +28,11 @@
             </div>
         </div>
 {{-- sdsdsdsds --}}
-        <div class="w-full sm:w-1/4 p-4">
+        {{-- <div class="w-full sm:w-1/4 p-4">
             <div class="flex items-center bg-blue-500 text-white p-4 rounded-lg shadow-md">
                 <div class="p-3 bg-blue-700 rounded-full">
-                    {{-- <i class="far fa-bars"></i> --}}
-                    <i class="fas fa-bars"></i>
+                     <i class="far fa-bars"></i> --}}
+                  {{--  <i class="fas fa-bars"></i>
 
                 </div>
                 <div class="ml-4">
@@ -43,7 +43,7 @@
                     </a>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Departments -->
         {{-- <div class="col-md-3">
             <div class="info-box">

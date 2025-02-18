@@ -4,60 +4,34 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transaction extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'transactions';
-
-    // protected $primaryKey = 'TransactionID';
-    
+    protected $primaryKey = 'TransactionID';
     protected $fillable = [
-        'InvoiceNumber',
-        'SupplierName',
-        'TransactionType',
-        'Amount',
-        'TransactionDate',
-        'PaymentMethod',
-        'Status',
-        'Description',
+        'CustomerName',
+        'amount',
+        'transaction_type',
+        'source',
+        'description',
+        'transaction_date',
+        'SupplierID',
+        'accountID',
     ];
 
-    
-    protected $casts = [
-        'TransactionDate' => 'datetime',
-        'Amount' => 'decimal:2',
-    ];
+    protected $dates = ['transaction_date', 'deleted_at'];
 
-    protected static function boot()
-     {
-         parent::boot();
- 
-         static::creating(function ($transaction) {
-             $transaction->InvoiceNumber = 'INV-' . date('Ymd') . '-' . strtoupper(Str::random(6));
-         });
- 
-         // Add logic for updating Invoice Table on creation
-         static::created(function ($transaction) {
-            Invoice_Num::create([
-                 'InvoiceNumber' => $transaction->InvoiceNumber,
-                 'Source' => 'Transaction',
-             ]);
-         });
-     }
-    /**
-     * Get the transaction associated with the invoice.
-     */
-    
-    public function invoice()
+    public function supplier()
     {
-        return $this->hasOne(Invoice_Num::class, 'InvoiceNumber', 'InvoiceNumber');
+        return $this->belongsTo(Supplier::class, 'SupplierID', 'SupplierID');
     }
-    /**
-     * Get the customer associated with the transaction.
-     */
-    
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class, 'accountID', 'accountID');
+    }
 }
