@@ -1,3 +1,4 @@
+<!-- filepath: /e:/FYP_all/paiman/resources/views/report/index.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,7 +51,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-3">
                                 <h4>Filtered Transactions</h4>
-                                <button onclick="downloadPDF()" class="btn btn-danger">Download PDF</button>
+                                {{-- <button onclick="downloadPDF()" class="btn btn-danger">Download PDF</button> --}}
                             </div>
                             <table class="table table-striped table-bordered" id="reportTable">
                                 <thead>
@@ -62,6 +63,7 @@
                                         <th>Type</th>
                                         <th>Source</th>
                                         <th>Date</th>
+                                        <th>Action</th> <!-- New Action Column -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,10 +76,14 @@
                                         <td>{{ ucfirst($transaction->transaction_type) }}</td>
                                         <td>{{ ucfirst(str_replace('_', ' ', $transaction->source)) }}</td>
                                         <td>{{ $transaction->transaction_date }}</td>
+                                        <td>
+                                            <a href="{{ route('report.pdf', ['TransactionID' => $transaction->TransactionID]) }}" class="btn btn-success btn-sm">Download PDF</a>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+                            
                             {{-- Pagination links --}}
                             {{ $transactions->links() }}
                         </div>

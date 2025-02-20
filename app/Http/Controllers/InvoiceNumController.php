@@ -110,12 +110,22 @@ class InvoiceNumController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Invoice_Num $invoice_Num)
-    {
-        return view("invoice.show");
+//     public function show(Invoice_Num $invoice_Num)
+// {
+//     $invoices = Invoice_Num::all();
+//     return view("invoice.show", [
+//         "invoices" => $invoices
+//     ]);
+// }
 
-    }
+public function show($Invoice_Num)
+{
+    $invoice = Invoice_Num::findOrFail($Invoice_Num);
 
+    return view("invoice.show", [
+        "invoice" => $invoice
+    ]);
+}
     /**
      * Show the form for editing the specified resource.
      */

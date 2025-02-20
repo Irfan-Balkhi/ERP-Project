@@ -165,7 +165,7 @@ Route::resource('account', AccountController::class);
 // Route::resource('report', ReportController::class);
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 // Route::get('/report/download', [ReportController::class, 'downloadReport'])->name('report.download');
-
+Route::get('/report/pdf/{TransactionID}', [ReportController::class, 'download'])->name('report.pdf');
 
 // Create a route that fetches products by CategoryID:
 Route::get('/get-products/{CategoryID}', [ProductController::class, 'getProductsByCategory']);

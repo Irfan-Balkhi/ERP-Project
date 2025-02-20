@@ -12,36 +12,32 @@
 <body>
     <!-- Logo Section -->
     <div class="logo">
-        <img src="{{ url('images/logo.svg') }}" alt="Company Logo" width="150">
+        <img src="{{ asset('images/logo.svg') }}" alt="Company Logo" width="150">
     </div>
 
     <h2>Transaction Report</h2>
 
     <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Transaction ID</th>
-                <th>Customer Name</th>
-                <th>Amount</th>
-                <th>Type</th>
-                <th>Source</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($transactions as $key => $transaction)
-            <tr>
-                <td>{{ $key + 1 }}</td>
-                <td>{{ $transaction->TransactionID }}</td>
-                <td>{{ $transaction->CustomerName }}</td>
-                <td>${{ number_format($transaction->amount, 2) }}</td>
-                <td>{{ ucfirst($transaction->transaction_type) }}</td>
-                <td>{{ ucfirst(str_replace('_', ' ', $transaction->source)) }}</td>
-                <td>{{ $transaction->transaction_date }}</td>
-            </tr>
-            @endforeach
-        </tbody>
+        <tr><th>Transaction ID</th><td>{{ $transactions->TransactionID }}</td></tr>
+        <tr><th>Customer Name</th><td>{{ $transactions->CustomerName }}</td></tr>
+        <tr><th>Amount</th><td>${{ number_format($transactions->amount, 2) }}</td></tr>
+        <tr><th>Type</th><td>{{ ucfirst($transactions->transaction_type) }}</td></tr>
+        <tr><th>Source</th><td>{{ ucfirst(str_replace('_', ' ', $transactions->source)) }}</td></tr>
+        <tr><th>Date</th><td>{{ $transactions->transaction_date }}</td></tr>
+        <tr><th>Supplier</th><td>{{ $transactions->supplier->CompanyName ?? 'N/A' }}</td></tr>
+        <tr><th>Account</th><td>{{ $transactions->account->name ?? 'N/A' }}</td></tr>
     </table>
+
+    @if($transactions->invoice)
+    <h3>Invoice Details</h3>
+    <table>
+        <tr><th>Invoice Number</th><td>{{ $transactions->invoice->InvoiceNumber }}</td></tr>
+        <tr><th>Contract ID</th><td>{{ $transactions->invoice->contract->ContractID ?? 'N/A' }}</td></tr>
+        <tr><th>Product</th><td>{{ $transactions->invoice->contract->product->ProductName ?? 'N/A' }}</td></tr>
+        <tr><th>Category</th><td>{{ $transactions->invoice->contract->product->category->Name ?? 'N/A' }}</td></tr>
+    </table>
+    @endif
+
+    <p><strong>Generated on:</strong> {{ now()->format('d-m-Y H:i') }}</p>
 </body>
 </html>

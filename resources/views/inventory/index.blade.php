@@ -37,7 +37,7 @@
                                             <th>Amount</th>
                                             {{-- <th>Quantity</th> --}}
                                             <th>Extra Expense</th>
-                                            <th>Description</th>
+                                            {{-- <th>Description</th> --}}
                                             <th>Last Updated</th>
                                             <th>Action</th>
                                         </tr>
@@ -55,9 +55,11 @@
                                             <td>${{ number_format($inventory->invoice->Amount, 2) }}</td>
                                             {{-- <td>${{ number_format($inventory->invoice->Quantity, 2) }}</td> --}}
                                             <td>${{ number_format($inventory->ExtraExpense, 2) }}</td>
-                                            <td>{{ $inventory->Description ?? 'N/A' }}</td>
+                                            {{-- <td>{{ $inventory->Description ?? 'N/A' }}</td> --}}
                                             <td>{{ $inventory->updated_at->format('d-m-Y H:i') }}</td>
                                             <td>
+                                                <a href="{{ route('inventory.show', $inventory->InventoryID) }}" class="btn btn-primary btn-sm">Show</a>
+
                                                 <a href="{{ route('inventory.edit', $inventory->InventoryID) }}" class="btn btn-warning btn-sm">Edit</a>
                                                 <form action="{{ route('inventory.destroy', $inventory->InventoryID) }}" method="POST" style="display: inline-block;">
                                                     @csrf

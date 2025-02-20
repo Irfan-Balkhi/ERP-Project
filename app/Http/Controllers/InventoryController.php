@@ -64,8 +64,12 @@ class InventoryController extends Controller
      */
     public function show(Inventory $inventory)
     {
-        //
-    }
+    $inventory = Inventory::with(['invoice.contract.supplier', 'invoice.contract.product.category'])
+                    ->findOrFail($inventory->InventoryID);
+
+    return view('inventory.show', compact('inventory'));
+}
+
 
     /**
      * Show the form for editing the specified resource.

@@ -64,7 +64,7 @@
                                             </td>
                                             <td>
                                                 <a href="{{ route('invoice.show', $invoice->InvoiceID) }}" class="btn btn-info btn-sm">View</a>
-                                                <a href="{{ route('invoice.edit', $invoice->InvoiceID) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                {{-- <a href="{{ route('invoice.edit', $invoice->InvoiceID) }}" class="btn btn-warning btn-sm">Edit</a> --}}
                                                 <form action="{{ route('invoice.destroy', $invoice->InvoiceID) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
